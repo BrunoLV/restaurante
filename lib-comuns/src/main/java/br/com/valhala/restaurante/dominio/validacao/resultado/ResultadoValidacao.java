@@ -3,7 +3,6 @@ package br.com.valhala.restaurante.dominio.validacao.resultado;
 import lombok.Getter;
 
 import java.util.LinkedList;
-import java.util.List;
 
 @Getter
 public class ResultadoValidacao {

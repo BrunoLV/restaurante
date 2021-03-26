@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ProdutoJsonInput implements Serializable {
+abstract class ProdutoJsonInput implements Serializable {
 
     private String nome;
     private String descricao;

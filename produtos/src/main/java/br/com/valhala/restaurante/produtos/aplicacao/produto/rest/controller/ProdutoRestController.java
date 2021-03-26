@@ -6,8 +6,13 @@ import br.com.valhala.restaurante.produtos.aplicacao.produto.cqs.comando.Comando
 import br.com.valhala.restaurante.produtos.aplicacao.produto.cqs.comando.executores.ExecutorComandoCriaProduto;
 import br.com.valhala.restaurante.produtos.aplicacao.produto.cqs.comando.executores.ExecutorComandoEditaProduto;
 import br.com.valhala.restaurante.produtos.aplicacao.produto.cqs.comando.executores.ExecutorComandoExcluiProduto;
-import br.com.valhala.restaurante.produtos.aplicacao.produto.rest.json.ProdutoJsonInput;
+import br.com.valhala.restaurante.produtos.aplicacao.produto.cqs.consulta.ConsultaProdutoService;
+import br.com.valhala.restaurante.produtos.aplicacao.produto.rest.conversores.ConversorProdutoJsonInputParaComandoCriacao;
+import br.com.valhala.restaurante.produtos.aplicacao.produto.rest.conversores.ConversorProdutoJsonInputParaComandoEdicao;
+import br.com.valhala.restaurante.produtos.aplicacao.produto.rest.conversores.ConversorProdutoModeloParaProdutoJsonOutput;
 import br.com.valhala.restaurante.produtos.aplicacao.produto.rest.json.ProdutoJsonOutput;
+import br.com.valhala.restaurante.produtos.aplicacao.produto.rest.json.ProdutoJsonPostInput;
+import br.com.valhala.restaurante.produtos.aplicacao.produto.rest.json.ProdutoJsonPutInput;
 import br.com.valhala.restaurante.produtos.dominio.produto.modelo.Produto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -16,64 +21,59 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/produto")
 @RequiredArgsConstructor
-public class ProdutoRestController {
+class ProdutoRestController {
 
-    private final ExecutorComandoCriaProduto executorComandoCriaProduto;
-    private final ExecutorComandoEditaProduto executorComandoEditaProduto;
-    private final ExecutorComandoExcluiProduto executorComandoExcluiProduto;
+    final ExecutorComandoCriaProduto executorComandoCriaProduto;
+    final ExecutorComandoEditaProduto executorComandoEditaProduto;
+    final ExecutorComandoExcluiProduto executorComandoExcluiProduto;
+    final ConsultaProdutoService consultaService;
+    final ConversorProdutoJsonInputParaComandoCriacao conversorProdutoJsonInputParaComandoCriacao;
+    final ConversorProdutoJsonInputParaComandoEdicao conversorProdutoJsonInputParaComandoEdicao;
+    final ConversorProdutoModeloParaProdutoJsonOutput conversorProdutoModeloParaProdutoJsonOutput;
 
     @PostMapping(value = {"", "/"}, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ProdutoJsonOutput> cria(@RequestBody ProdutoJsonInput input, UriComponentsBuilder builder) {
-
-        ComandoCriaProduto comando = ComandoCriaProduto
-                .builder()
-                .nome(input.getNome())
-                .descricao(input.getDescricao())
-                .valor(input.getValor())
-                .fabricante(input.getFabricante())
-                .build();
-
+    ResponseEntity<ProdutoJsonOutput> cria(@RequestBody ProdutoJsonPostInput input, UriComponentsBuilder builder) {
+        ComandoCriaProduto comando = conversorProdutoJsonInputParaComandoCriacao.converte(input);
         Produto produto = executorComandoCriaProduto.executaRetornoProdutoCriado(comando);
-
         URI uri = builder.path("/produto").path(produto.getGuid()).build().toUri();
-
-        ProdutoJsonOutput output = ProdutoJsonOutput
-                .builder()
-                .nome(produto.getNome())
-                .descricao(produto.getDescricao())
-                .dataCadastro(produto.getDataCadastro())
-                .valor(produto.getValor())
-                .fabricante(produto.getFabricante())
-                .build();
-
+        ProdutoJsonOutput output = conversorProdutoModeloParaProdutoJsonOutput.converte(produto);
         return ResponseEntity.created(uri).body(output);
     }
 
     @PutMapping(value = "/{guid}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> edita(@PathVariable("guid") String guid, @RequestBody ProdutoJsonInput input) {
-
-        ComandoEditaProduto comando = ComandoEditaProduto
-                .builder()
-                .guid(guid)
-                .nome(input.getNome())
-                .descricao(input.getDescricao())
-                .valor(input.getValor())
-                .fabricante(input.getFabricante())
-                .build();
-
+    ResponseEntity<Void> edita(@PathVariable("guid") String guid, @RequestBody ProdutoJsonPutInput input) {
+        ComandoEditaProduto comando = conversorProdutoJsonInputParaComandoEdicao.converte(input);
         executorComandoEditaProduto.executa(comando);
-
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping(value = "/{guid}")
-    public ResponseEntity<Void> exclui(@PathVariable("guid") String guid) {
+    ResponseEntity<Void> exclui(@PathVariable("guid") String guid) {
         ComandoExcluiProduto comando = ComandoExcluiProduto.builder().guid(guid).build();
         executorComandoExcluiProduto.executa(comando);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping(value = "/{guid}", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<ProdutoJsonOutput> buscaPorId(@PathVariable("guid") String guid) {
+        Produto produto = consultaService.buscaPorGuid(guid);
+        ProdutoJsonOutput output = conversorProdutoModeloParaProdutoJsonOutput.converte(produto);
+        return ResponseEntity.ok().body(output);
+    }
+
+    @GetMapping(value = "/lista", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<Collection<ProdutoJsonOutput>> lista() {
+        Collection<Produto> produtos = consultaService.lista();
+        List<ProdutoJsonOutput> outputs = produtos.stream().map(p -> conversorProdutoModeloParaProdutoJsonOutput.converte(p))
+                .collect(Collectors.toList());
+        return ResponseEntity.ok().body(outputs);
+    }
+
 }

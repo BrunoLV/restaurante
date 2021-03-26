@@ -4,6 +4,8 @@ import br.com.valhala.restaurante.aplicacao.exceptions.ModeloNaoEncontradoExcept
 import br.com.valhala.restaurante.produtos.dominio.produto.modelo.Produto;
 import br.com.valhala.restaurante.produtos.dominio.produto.repositorio.RepositorioProduto;
 import br.com.valhala.restaurante.produtos.infra.produto.orm.ProdutoORM;
+import br.com.valhala.restaurante.produtos.infra.produto.repositorio.conversores.ConversorProdutoModeloParaORM;
+import br.com.valhala.restaurante.produtos.infra.produto.repositorio.conversores.ConversorProdutoORMParaModelo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -16,22 +18,18 @@ import java.util.stream.Collectors;
 public class RepositorioProdutoJpa implements RepositorioProduto {
 
     private final RepositorioProdutoSpringData repositorio;
+    private final ConversorProdutoModeloParaORM conversorProdutoModeloParaORM;
+    private final ConversorProdutoORMParaModelo conversorProdutoORMParaModelo;
 
     @Override
     public void cria(Produto produto) {
-        ProdutoORM orm = new ProdutoORM();
-        orm.setGuid(produto.getGuid());
-        orm.setNome(produto.getNome());
-        orm.setDescricao(produto.getDescricao());
-        orm.setDataCadastro(produto.getDataCadastro());
-        orm.setValor(produto.getValor());
-        orm.setFabricante(produto.getFabricante());
+        ProdutoORM orm = conversorProdutoModeloParaORM.converte(produto);
         repositorio.save(orm);
     }
 
     @Override
-    public void edita(String guid, Produto produto) {
-        ProdutoORM orm = repositorio.findByGuid(guid);
+    public void edita(Produto produto) {
+        ProdutoORM orm = repositorio.findByGuid(produto.getGuid());
         if (orm == null) {
             throw new ModeloNaoEncontradoException();
         }
@@ -57,12 +55,7 @@ public class RepositorioProdutoJpa implements RepositorioProduto {
 
         Produto produto = orm == null ?
                 null :
-                Produto.builder()
-                        .guid(orm.getGuid())
-                        .descricao(orm.getDescricao())
-                        .valor(orm.getValor())
-                        .fabricante(orm.getFabricante())
-                        .build();
+                conversorProdutoORMParaModelo.converte(orm);
 
         return Optional.ofNullable(produto);
     }
@@ -71,12 +64,7 @@ public class RepositorioProdutoJpa implements RepositorioProduto {
     public Collection<Produto> lista() {
         return repositorio.findAll()
                 .stream()
-                .map(o -> Produto.builder()
-                        .guid(o.getGuid())
-                        .descricao(o.getDescricao())
-                        .valor(o.getValor())
-                        .fabricante(o.getFabricante())
-                        .build())
+                .map(o -> conversorProdutoORMParaModelo.converte(o))
                 .collect(Collectors.toList());
     }
 

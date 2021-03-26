@@ -6,7 +6,7 @@ import br.com.valhala.restaurante.dominio.validacao.resultado.ResultadoValidacao
 import br.com.valhala.restaurante.produtos.dominio.produto.modelo.Produto;
 import br.com.valhala.restaurante.produtos.dominio.produto.repositorio.RepositorioProduto;
 import br.com.valhala.restaurante.produtos.dominio.produto.servico.ServicoProduto;
-import br.com.valhala.restaurante.produtos.dominio.produto.validacao.ValidacaoProdutoHelper;
+import br.com.valhala.restaurante.produtos.dominio.produto.validacao.ValidadorProduto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 public class ServicoProdutoImpl implements ServicoProduto {
 
     private final RepositorioProduto repositorio;
-    private final ValidacaoProdutoHelper validador;
+    private final ValidadorProduto validador;
 
     @Override
     public Produto cria(Produto produto) {
@@ -37,7 +37,7 @@ public class ServicoProdutoImpl implements ServicoProduto {
         Produto produtoPersistente = repositorio.buscaPorGuid(guid).orElseThrow(() -> new ModeloNaoEncontradoException());
         Produto produtoEditado = produtoPersistente.edita(produto);
         validaProduto(produtoEditado);
-        repositorio.edita(guid, produtoEditado);
+        repositorio.edita(produtoEditado);
     }
 
     @Override
@@ -45,4 +45,5 @@ public class ServicoProdutoImpl implements ServicoProduto {
         Produto produtoPersistente = repositorio.buscaPorGuid(guid).orElseThrow(() -> new ModeloNaoEncontradoException());
         repositorio.exclui(produtoPersistente);
     }
+
 }

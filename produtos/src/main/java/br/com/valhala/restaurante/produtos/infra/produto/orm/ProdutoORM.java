@@ -1,7 +1,6 @@
 package br.com.valhala.restaurante.produtos.infra.produto.orm;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -11,6 +10,9 @@ import java.time.LocalDate;
 @Data
 @Entity
 @Table(name = "tb_produto")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class ProdutoORM implements Serializable {
 

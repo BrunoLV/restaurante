@@ -11,8 +11,10 @@ import java.time.LocalDate;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(staticName = "of")
 @Builder
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Produto implements RaizAgregado<Produto> {
 
+    @EqualsAndHashCode.Include
     private String guid;
     private String nome;
     private String descricao;
