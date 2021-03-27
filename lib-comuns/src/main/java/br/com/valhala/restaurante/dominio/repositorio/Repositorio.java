@@ -3,7 +3,6 @@ package br.com.valhala.restaurante.dominio.repositorio;
 import br.com.valhala.restaurante.dominio.RaizAgregado;
 
 import java.util.Collection;
-import java.util.Optional;
 
 public interface Repositorio<A extends RaizAgregado<A>> {
 

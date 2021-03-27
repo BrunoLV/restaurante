@@ -1,9 +1,7 @@
 tb_produtos:
-  - id: 1
-    guid: 8fa845b01c134bcf9de0de1ec2ff8765
+  - guid: 8fa845b01c134bcf9de0de1ec2ff8765
     nome: Teste-1
     descricao: Teste-1
     data_cadastro: 2021-03-26
     valor: 100.00
     fabricante: Teste-1
-    versao: 1

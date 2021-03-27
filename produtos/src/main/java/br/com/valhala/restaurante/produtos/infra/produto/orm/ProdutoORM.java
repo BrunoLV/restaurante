@@ -19,7 +19,7 @@ public class ProdutoORM implements Serializable {
     @EqualsAndHashCode.Include
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "guid")
@@ -39,9 +39,5 @@ public class ProdutoORM implements Serializable {
 
     @Column(name = "fabricante")
     private String fabricante;
-
-    @Version
-    @Column(name = "versao")
-    private Long versao;
 
 }
