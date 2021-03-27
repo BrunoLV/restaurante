@@ -42,7 +42,7 @@ class ProdutoRestController {
     ResponseEntity<ProdutoJsonOutput> cria(@RequestBody ProdutoJsonPostInput input, UriComponentsBuilder builder) {
         ComandoCriaProduto comando = conversorProdutoJsonInputParaComandoCriacao.converte(input);
         Produto produto = executorComandoCriaProduto.executaRetornoProdutoCriado(comando);
-        URI uri = builder.path("/produto").path(produto.getGuid()).build().toUri();
+        URI uri = builder.path("/produto/").path(produto.getGuid()).build().toUri();
         ProdutoJsonOutput output = conversorProdutoModeloParaProdutoJsonOutput.converte(produto);
         return ResponseEntity.created(uri).body(output);
     }

@@ -1,4 +1,4 @@
-package br.com.valhala.restaurante.produtos.aplicacao.produto.servico.impl;
+package br.com.valhala.restaurante.produtos.dominio.produto.servico.impl;
 
 import br.com.valhala.restaurante.aplicacao.exceptions.ModeloInvalidoException;
 import br.com.valhala.restaurante.dominio.validacao.resultado.ResultadoValidacao;
