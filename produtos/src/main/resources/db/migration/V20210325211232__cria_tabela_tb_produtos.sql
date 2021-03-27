@@ -7,6 +7,7 @@ CREATE TABLE tb_produtos
     data_cadastro DATE           NOT NULL,
     valor         DECIMAL(17, 2) NOT NULL,
     fabricante    VARCHAR(100)   NOT NULL,
+    versao        BIGINT         NOT NULL,
     PRIMARY KEY (id)
 );
 

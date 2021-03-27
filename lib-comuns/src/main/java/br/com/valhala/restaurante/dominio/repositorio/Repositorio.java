@@ -13,7 +13,7 @@ public interface Repositorio<A extends RaizAgregado<A>> {
 
     void exclui(A a);
 
-    Optional<A> buscaPorGuid(String guid);
+    A buscaPorGuid(String guid);
 
     Collection<A> lista();
 

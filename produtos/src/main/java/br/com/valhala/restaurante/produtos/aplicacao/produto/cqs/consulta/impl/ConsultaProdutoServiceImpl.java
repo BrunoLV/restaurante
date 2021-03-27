@@ -1,6 +1,5 @@
 package br.com.valhala.restaurante.produtos.aplicacao.produto.cqs.consulta.impl;
 
-import br.com.valhala.restaurante.aplicacao.exceptions.ModeloNaoEncontradoException;
 import br.com.valhala.restaurante.produtos.aplicacao.produto.cqs.consulta.ConsultaProdutoService;
 import br.com.valhala.restaurante.produtos.dominio.produto.modelo.Produto;
 import br.com.valhala.restaurante.produtos.dominio.produto.repositorio.RepositorioProduto;
@@ -17,7 +16,7 @@ public class ConsultaProdutoServiceImpl implements ConsultaProdutoService {
 
     @Override
     public Produto buscaPorGuid(String guid) {
-        return repositorio.buscaPorGuid(guid).orElseThrow(() -> new ModeloNaoEncontradoException());
+        return repositorio.buscaPorGuid(guid);
     }
 
     @Override

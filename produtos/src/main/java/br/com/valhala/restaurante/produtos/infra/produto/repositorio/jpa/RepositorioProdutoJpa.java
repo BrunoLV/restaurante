@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
@@ -31,7 +30,7 @@ public class RepositorioProdutoJpa implements RepositorioProduto {
     public void edita(Produto produto) {
         ProdutoORM orm = repositorio.findByGuid(produto.getGuid());
         if (orm == null) {
-            throw new ModeloNaoEncontradoException();
+            throw new ModeloNaoEncontradoException(String.format("Produto com guid [%s] não encontrado.", produto.getGuid()));
         }
         orm.setNome(produto.getNome());
         orm.setDescricao(produto.getDescricao());
@@ -44,20 +43,19 @@ public class RepositorioProdutoJpa implements RepositorioProduto {
     public void exclui(Produto produto) {
         ProdutoORM orm = repositorio.findByGuid(produto.getGuid());
         if (orm == null) {
-            throw new ModeloNaoEncontradoException();
+            throw new ModeloNaoEncontradoException(String.format("Produto com guid [%s] não encontrado.", produto.getGuid()));
         }
         repositorio.delete(orm);
     }
 
     @Override
-    public Optional<Produto> buscaPorGuid(String guid) {
+    public Produto buscaPorGuid(String guid) {
         ProdutoORM orm = repositorio.findByGuid(guid);
-
-        Produto produto = orm == null ?
-                null :
-                conversorProdutoORMParaModelo.converte(orm);
-
-        return Optional.ofNullable(produto);
+        if (orm == null) {
+            throw new ModeloNaoEncontradoException(String.format("Produto com guid [%s] não encontrado.", guid));
+        }
+        Produto produto = conversorProdutoORMParaModelo.converte(orm);
+        return produto;
     }
 
     @Override

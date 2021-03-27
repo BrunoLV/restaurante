@@ -1,7 +1,6 @@
 package br.com.valhala.restaurante.produtos.aplicacao.produto.servico.impl;
 
 import br.com.valhala.restaurante.aplicacao.exceptions.ModeloInvalidoException;
-import br.com.valhala.restaurante.aplicacao.exceptions.ModeloNaoEncontradoException;
 import br.com.valhala.restaurante.dominio.validacao.resultado.ResultadoValidacao;
 import br.com.valhala.restaurante.produtos.dominio.produto.modelo.Produto;
 import br.com.valhala.restaurante.produtos.dominio.produto.repositorio.RepositorioProduto;
@@ -22,7 +21,7 @@ public class ServicoProdutoImpl implements ServicoProduto {
         Produto produtoInclusao = Produto.novo(produto.getNome(), produto.getDescricao(), produto.getValor(), produto.getFabricante());
         validaProduto(produtoInclusao);
         repositorio.cria(produtoInclusao);
-        return repositorio.buscaPorGuid(produtoInclusao.getGuid()).get();
+        return repositorio.buscaPorGuid(produtoInclusao.getGuid());
     }
 
     private void validaProduto(Produto produto) {
@@ -34,7 +33,7 @@ public class ServicoProdutoImpl implements ServicoProduto {
 
     @Override
     public void edita(String guid, Produto produto) {
-        Produto produtoPersistente = repositorio.buscaPorGuid(guid).orElseThrow(() -> new ModeloNaoEncontradoException());
+        Produto produtoPersistente = repositorio.buscaPorGuid(guid);
         Produto produtoEditado = produtoPersistente.edita(produto);
         validaProduto(produtoEditado);
         repositorio.edita(produtoEditado);
@@ -42,7 +41,7 @@ public class ServicoProdutoImpl implements ServicoProduto {
 
     @Override
     public void exclui(String guid) {
-        Produto produtoPersistente = repositorio.buscaPorGuid(guid).orElseThrow(() -> new ModeloNaoEncontradoException());
+        Produto produtoPersistente = repositorio.buscaPorGuid(guid);
         repositorio.exclui(produtoPersistente);
     }
 
