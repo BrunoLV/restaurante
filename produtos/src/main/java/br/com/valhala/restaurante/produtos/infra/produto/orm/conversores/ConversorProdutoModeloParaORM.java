@@ -1,4 +1,4 @@
-package br.com.valhala.restaurante.produtos.infra.produto.repositorio.conversores;
+package br.com.valhala.restaurante.produtos.infra.produto.orm.conversores;
 
 import br.com.valhala.restaurante.aplicacao.conversao.Conversor;
 import br.com.valhala.restaurante.produtos.dominio.produto.modelo.Produto;

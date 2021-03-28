@@ -5,17 +5,24 @@ import br.com.valhala.restaurante.dominio.validacao.resultado.ResultadoValidacao
 import br.com.valhala.restaurante.infra.geradores.GeradorGuid;
 import br.com.valhala.restaurante.produtos.dominio.produto.modelo.Produto;
 import br.com.valhala.restaurante.produtos.dominio.produto.validacao.ValidadorProduto;
-import br.com.valhala.restaurante.produtos.dominio.produto.validacao.impl.ValidadorProdutoImpl;
+import com.github.database.rider.spring.api.DBRider;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@SpringBootTest
+@ActiveProfiles("test")
+@DBRider
 class ValidadorProdutoImplTest {
 
-    ValidadorProduto validadorProduto = new ValidadorProdutoImpl();
+    @Autowired
+    ValidadorProduto validadorProduto;
 
     @Test
     void naoDeveFalharQuandoPropriedadesEstiveremPreenchidasCorretamente() {

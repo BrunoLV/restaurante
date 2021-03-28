@@ -22,22 +22,22 @@ public class ProdutoORM implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "guid")
+    @Column(name = "guid", length = 100, nullable = false, unique = true)
     private String guid;
 
-    @Column(name = "nome")
+    @Column(name = "nome", length = 100, nullable = false, unique = true)
     private String nome;
 
-    @Column(name = "descricao")
+    @Column(name = "descricao", length = 200, nullable = false)
     private String descricao;
 
-    @Column(name = "data_cadastro")
+    @Column(name = "data_cadastro", nullable = false)
     private LocalDate dataCadastro;
 
-    @Column(name = "valor", precision = 17, scale = 2)
+    @Column(name = "valor", precision = 17, scale = 2, nullable = false)
     private BigDecimal valor;
 
-    @Column(name = "fabricante")
+    @Column(name = "fabricante", length = 100, nullable = false)
     private String fabricante;
 
 }

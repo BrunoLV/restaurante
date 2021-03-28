@@ -2,6 +2,7 @@ package br.com.valhala.restaurante.produtos.dominio.produto.modelo;
 
 import br.com.valhala.restaurante.dominio.RaizAgregado;
 import br.com.valhala.restaurante.infra.geradores.GeradorGuid;
+import br.com.valhala.restaurante.produtos.dominio.produto.validacao.regras.ProdutoNomeUnico;
 import lombok.*;
 
 import javax.validation.constraints.DecimalMin;
@@ -15,6 +16,7 @@ import java.time.LocalDate;
 @AllArgsConstructor(staticName = "of")
 @Builder
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ProdutoNomeUnico(message = "{produto.nome.duplicado}")
 public class Produto implements RaizAgregado<Produto> {
 
     @EqualsAndHashCode.Include

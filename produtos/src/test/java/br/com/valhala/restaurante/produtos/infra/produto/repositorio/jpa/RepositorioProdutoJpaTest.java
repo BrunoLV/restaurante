@@ -2,16 +2,13 @@ package br.com.valhala.restaurante.produtos.infra.produto.repositorio.jpa;
 
 import br.com.valhala.restaurante.aplicacao.exceptions.ModeloNaoEncontradoException;
 import br.com.valhala.restaurante.produtos.dominio.produto.modelo.Produto;
-import br.com.valhala.restaurante.produtos.infra.test_containers.PostgresExtension;
-import com.github.database.rider.core.api.configuration.DBUnit;
-import com.github.database.rider.core.api.configuration.Orthography;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import com.github.database.rider.spring.api.DBRider;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -21,9 +18,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 @SpringBootTest
+@ActiveProfiles("test")
 @DBRider
-@DBUnit(caseInsensitiveStrategy = Orthography.LOWERCASE)
-@ExtendWith(PostgresExtension.class)
 class RepositorioProdutoJpaTest {
 
     @Autowired

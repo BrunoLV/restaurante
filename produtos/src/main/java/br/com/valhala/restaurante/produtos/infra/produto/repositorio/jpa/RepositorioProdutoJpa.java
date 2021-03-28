@@ -4,8 +4,8 @@ import br.com.valhala.restaurante.aplicacao.exceptions.ModeloNaoEncontradoExcept
 import br.com.valhala.restaurante.produtos.dominio.produto.modelo.Produto;
 import br.com.valhala.restaurante.produtos.dominio.produto.repositorio.RepositorioProduto;
 import br.com.valhala.restaurante.produtos.infra.produto.orm.ProdutoORM;
-import br.com.valhala.restaurante.produtos.infra.produto.repositorio.conversores.ConversorProdutoModeloParaORM;
-import br.com.valhala.restaurante.produtos.infra.produto.repositorio.conversores.ConversorProdutoORMParaModelo;
+import br.com.valhala.restaurante.produtos.infra.produto.orm.conversores.ConversorProdutoModeloParaORM;
+import br.com.valhala.restaurante.produtos.infra.produto.orm.conversores.ConversorProdutoORMParaModelo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

@@ -42,6 +42,43 @@ class ProdutoRestControllerIT {
 
     @Test
     @DataSet(value = "datasets/produto/produto.yml", cleanAfter = true)
+    void deveRetornar422EValidacoesNoCorpoDaRespostaQuandoNomeDuplicado() {
+
+        ProdutoJsonPostInput input = ProdutoJsonPostInput
+                .builder()
+                .nome("Teste-1")
+                .descricao("Teste-IT")
+                .valor(new BigDecimal("100.00"))
+                .fabricante("Teste-IT")
+                .build();
+
+        ErroValidacaoDadosJsonOutput output = given()
+                .accept(ContentType.JSON)
+                .contentType(ContentType.JSON)
+                .body(input)
+                .log().all()
+                .when()
+                .post(urlRecurso)
+                .then()
+                .statusCode(HttpStatus.UNPROCESSABLE_ENTITY.value())
+                .contentType(ContentType.JSON)
+                .log().all()
+                .extract().response().body().as(ErroValidacaoDadosJsonOutput.class);
+
+        assertThat(output, is(notNullValue()));
+        assertThat(output.getPath(), equalTo(urlRecurso));
+        assertThat(output.getMensagem(), equalTo("Produto inválido."));
+
+        ErroValidacaoJsonOutput[] errosEsperados = {
+                new ErroValidacaoJsonOutput(null, "O [nome] do Produto já esta em uso.")
+        };
+
+        assertThat(output.getErros(), hasSize(1));
+        assertThat(output.getErros(), hasItems(errosEsperados));
+    }
+
+    @Test
+    @DataSet(value = "datasets/produto/produto.yml", cleanAfter = true)
     void deveRetornar422EValidacoesNoCorpoDaRespostaQuandoInvalido() {
 
         ProdutoJsonPostInput input = ProdutoJsonPostInput

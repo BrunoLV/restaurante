@@ -1,12 +1,11 @@
 package br.com.valhala.restaurante.produtos;
 
-import br.com.valhala.restaurante.produtos.infra.test_containers.PostgresExtension;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
-@ExtendWith(PostgresExtension.class)
+@ActiveProfiles("test")
 class ProdutosApplicationTests {
 
     @Test
