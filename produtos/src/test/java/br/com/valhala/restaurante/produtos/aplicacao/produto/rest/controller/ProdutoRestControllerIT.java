@@ -4,10 +4,12 @@ import br.com.valhala.restaurante.aplicacao.rest.tratamento_exception.json.ErroV
 import br.com.valhala.restaurante.aplicacao.rest.tratamento_exception.json.ErroValidacaoJsonOutput;
 import br.com.valhala.restaurante.produtos.aplicacao.produto.rest.json.ProdutoJsonOutput;
 import br.com.valhala.restaurante.produtos.aplicacao.produto.rest.json.ProdutoJsonPostInput;
+import br.com.valhala.restaurante.produtos.aplicacao.produto.rest.json.ProdutoJsonPutInput;
 import br.com.valhala.restaurante.produtos.infra.test_containers.PostgresExtension;
 import com.github.database.rider.core.api.configuration.DBUnit;
 import com.github.database.rider.core.api.configuration.Orthography;
 import com.github.database.rider.core.api.dataset.DataSet;
+import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import com.github.database.rider.spring.api.DBRider;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
@@ -42,6 +44,93 @@ class ProdutoRestControllerIT {
 
     @Test
     @DataSet(value = "datasets/produto/produto.yml", cleanAfter = true)
+    @ExpectedDataSet(value = "datasets/produto/produto-pos-edicao.yml", ignoreCols = {"data_cadastro"})
+    void deveAlterarERetornar204() {
+
+        ProdutoJsonPutInput input = ProdutoJsonPutInput
+                .builder()
+                .guid("8fa845b01c134bcf9de0de1ec2ff8765")
+                .nome("Teste-edicao")
+                .descricao("Teste-edicao")
+                .valor(new BigDecimal("101.00"))
+                .fabricante("Teste-edicao")
+                .build();
+
+        given()
+            .contentType(ContentType.JSON)
+            .body(input)
+            .pathParam("guid", "8fa845b01c134bcf9de0de1ec2ff8765")
+            .log().all()
+        .when()
+            .put(urlRecurso + "/{guid}")
+        .then()
+            .statusCode(HttpStatus.NO_CONTENT.value())
+            .log().all();
+    }
+
+    @Test
+    @DataSet(value = "datasets/produto/produto.yml", cleanAfter = true)
+    void deveRetornar404QuandoGuidInformadoNaoExistir() {
+
+        ProdutoJsonPutInput input = ProdutoJsonPutInput
+                .builder()
+                .guid("8fa845b01c134bcf9de0de1ec2ff8999")
+                .nome("Teste-edicao")
+                .descricao("Teste-edicao")
+                .valor(new BigDecimal("101.00"))
+                .fabricante("Teste-edicao")
+                .build();
+
+        given()
+            .contentType(ContentType.JSON)
+            .body(input)
+            .pathParam("guid", "8fa845b01c134bcf9de0de1ec2ff8999")
+            .log().all()
+        .when()
+            .put(urlRecurso + "/{guid}")
+        .then()
+            .statusCode(HttpStatus.NOT_FOUND.value())
+            .log().all();
+    }
+
+    @Test
+    @DataSet(value = "datasets/produto/produto.yml", cleanAfter = true)
+    void deveCadastrarERetornar201ComLocationDoRecursoCriado() {
+
+        ProdutoJsonPostInput input = ProdutoJsonPostInput
+                .builder()
+                .nome("Teste-IT")
+                .descricao("Teste-IT")
+                .valor(new BigDecimal("100.00"))
+                .fabricante("Teste-IT")
+                .build();
+
+        Response response = given()
+                    .accept(ContentType.JSON)
+                    .contentType(ContentType.JSON)
+                    .body(input)
+                    .log().all()
+                .when()
+                    .post(urlRecurso)
+                .then()
+                    .statusCode(HttpStatus.CREATED.value())
+                    .contentType(ContentType.JSON)
+                    .log().all()
+                    .extract().response();
+
+        ProdutoJsonOutput output = response.body().as(ProdutoJsonOutput.class);
+
+        assertThat(output, is(notNullValue()));
+        assertThat(output.getGuid(), is(notNullValue()));
+
+        String locationEsperado = "http://localhost:" + porta + "/api/produto/" + output.getGuid();
+
+        assertThat(response.getHeaders().hasHeaderWithName("Location"), is(true));
+        assertThat(response.getHeader("Location"), equalTo(locationEsperado));
+    }
+
+    @Test
+    @DataSet(value = "datasets/produto/produto.yml", cleanAfter = true)
     void deveRetornar422EValidacoesNoCorpoDaRespostaQuandoNomeDuplicado() {
 
         ProdutoJsonPostInput input = ProdutoJsonPostInput
@@ -53,17 +142,17 @@ class ProdutoRestControllerIT {
                 .build();
 
         ErroValidacaoDadosJsonOutput output = given()
-                .accept(ContentType.JSON)
-                .contentType(ContentType.JSON)
-                .body(input)
-                .log().all()
+                    .accept(ContentType.JSON)
+                    .contentType(ContentType.JSON)
+                    .body(input)
+                    .log().all()
                 .when()
-                .post(urlRecurso)
+                    .post(urlRecurso)
                 .then()
-                .statusCode(HttpStatus.UNPROCESSABLE_ENTITY.value())
-                .contentType(ContentType.JSON)
-                .log().all()
-                .extract().response().body().as(ErroValidacaoDadosJsonOutput.class);
+                    .statusCode(HttpStatus.UNPROCESSABLE_ENTITY.value())
+                    .contentType(ContentType.JSON)
+                    .log().all()
+                    .extract().response().body().as(ErroValidacaoDadosJsonOutput.class);
 
         assertThat(output, is(notNullValue()));
         assertThat(output.getPath(), equalTo(urlRecurso));
@@ -86,17 +175,17 @@ class ProdutoRestControllerIT {
                 .build();
 
         ErroValidacaoDadosJsonOutput output = given()
-                .accept(ContentType.JSON)
-                .contentType(ContentType.JSON)
-                .body(input)
-                .log().all()
+                    .accept(ContentType.JSON)
+                    .contentType(ContentType.JSON)
+                    .body(input)
+                    .log().all()
                 .when()
-                .post(urlRecurso)
+                    .post(urlRecurso)
                 .then()
-                .statusCode(HttpStatus.UNPROCESSABLE_ENTITY.value())
-                .contentType(ContentType.JSON)
-                .log().all()
-                .extract().response().body().as(ErroValidacaoDadosJsonOutput.class);
+                    .statusCode(HttpStatus.UNPROCESSABLE_ENTITY.value())
+                    .contentType(ContentType.JSON)
+                    .log().all()
+                    .extract().response().body().as(ErroValidacaoDadosJsonOutput.class);
 
         assertThat(output, is(notNullValue()));
         assertThat(output.getPath(), equalTo(urlRecurso));
@@ -111,42 +200,6 @@ class ProdutoRestControllerIT {
 
         assertThat(output.getErros(), hasSize(4));
         assertThat(output.getErros(), hasItems(errosEsperados));
-    }
-
-    @Test
-    @DataSet(value = "datasets/produto/produto.yml", cleanAfter = true)
-    void deveCadastrarERetornar201ComLocationDoRecursoCriado() {
-
-        ProdutoJsonPostInput input = ProdutoJsonPostInput
-                .builder()
-                .nome("Teste-IT")
-                .descricao("Teste-IT")
-                .valor(new BigDecimal("100.00"))
-                .fabricante("Teste-IT")
-                .build();
-
-        Response response = given()
-                .accept(ContentType.JSON)
-                .contentType(ContentType.JSON)
-                .body(input)
-                .log().all()
-                .when()
-                .post(urlRecurso)
-                .then()
-                .statusCode(HttpStatus.CREATED.value())
-                .contentType(ContentType.JSON)
-                .log().all()
-                .extract().response();
-
-        ProdutoJsonOutput output = response.body().as(ProdutoJsonOutput.class);
-
-        assertThat(output, is(notNullValue()));
-        assertThat(output.getGuid(), is(notNullValue()));
-
-        String locationEsperado = "http://localhost:" + porta + "/api/produto/" + output.getGuid();
-
-        assertThat(response.getHeaders().hasHeaderWithName("Location"), is(true));
-        assertThat(response.getHeader("Location"), equalTo(locationEsperado));
     }
 
 }

@@ -1,6 +1,7 @@
 package br.com.valhala.restaurante.produtos.aplicacao.rest.tratamento_exception;
 
 import br.com.valhala.restaurante.aplicacao.exceptions.ModeloInvalidoException;
+import br.com.valhala.restaurante.aplicacao.exceptions.ModeloNaoEncontradoException;
 import br.com.valhala.restaurante.aplicacao.rest.tratamento_exception.json.ErroValidacaoDadosJsonOutput;
 import br.com.valhala.restaurante.aplicacao.rest.tratamento_exception.json.ErroValidacaoJsonOutput;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,11 @@ public class ErrorHandlingRestController {
         output.setMensagem(ex.getMessage());
         ex.getErros().stream().map(e -> new ErroValidacaoJsonOutput(e.getCampo() == null || e.getCampo().isBlank() ? null : e.getCampo(), e.getMensagem())).forEach(e -> output.adicionaErro(e));
         return ResponseEntity.unprocessableEntity().body(output);
+    }
+
+    @ExceptionHandler(value = {ModeloNaoEncontradoException.class})
+    public ResponseEntity<Void> trataModeloNaoEncontrado(ModeloNaoEncontradoException ex, HttpServletRequest request) {
+        return ResponseEntity.notFound().build();
     }
 
 }

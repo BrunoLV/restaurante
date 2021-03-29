@@ -22,6 +22,6 @@ public class ExecutorComandoEditaProdutoImpl implements ExecutorComandoEditaProd
     }
 
     private Produto geraDadosOperacao(ComandoEditaProduto comando) {
-        return Produto.of(null, comando.getNome(), comando.getDescricao(), null, comando.getValor(), comando.getFabricante());
+        return Produto.of(comando.getGuid(), comando.getNome(), comando.getDescricao(), null, comando.getValor(), comando.getFabricante());
     }
 }
