@@ -5,6 +5,10 @@ import br.com.valhala.restaurante.aplicacao.rest.tratamento_exception.json.ErroV
 import br.com.valhala.restaurante.produtos.aplicacao.produto.rest.json.ProdutoJsonOutput;
 import br.com.valhala.restaurante.produtos.aplicacao.produto.rest.json.ProdutoJsonPostInput;
 import br.com.valhala.restaurante.produtos.aplicacao.produto.rest.json.ProdutoJsonPutInput;
+import br.com.valhala.restaurante.produtos.infra.dbrider.providers.ListaProdutosDataSetProvider;
+import br.com.valhala.restaurante.produtos.infra.dbrider.providers.ProdutoDataSetProvider;
+import br.com.valhala.restaurante.produtos.infra.dbrider.providers.ProdutoPosEdicaoDataSetProvider;
+import br.com.valhala.restaurante.produtos.infra.dbrider.providers.ProdutoPosInclusaoDataSetProvider;
 import br.com.valhala.restaurante.produtos.infra.test_containers.PostgresExtension;
 import com.github.database.rider.core.api.configuration.DBUnit;
 import com.github.database.rider.core.api.configuration.Orthography;
@@ -21,6 +25,9 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -43,8 +50,126 @@ class ProdutoRestControllerIT {
     }
 
     @Test
-    @DataSet(value = "datasets/produto/produto.yml", cleanAfter = true)
-    @ExpectedDataSet(value = "datasets/produto/produto-pos-edicao.yml", ignoreCols = {"data_cadastro"})
+    @DataSet(provider = ListaProdutosDataSetProvider.class, cleanAfter = true)
+    void deveDevolverListaNoCorpoERetornar200() {
+
+        ProdutoJsonOutput outputExperado1 = ProdutoJsonOutput
+                .builder()
+                .guid("8fa845b01c134bcf9de0de1ec2ff8765")
+                .nome("Teste-1")
+                .descricao("Teste-1")
+                .dataCadastro(LocalDate.of(2021, 03, 26))
+                .valor(new BigDecimal("100.00"))
+                .fabricante("Teste-1")
+                .build();
+
+        ProdutoJsonOutput outputExperado2 = ProdutoJsonOutput
+                .builder()
+                .guid("7de0b077875c45bcb4b6fd19f7d46f31")
+                .nome("Teste-2")
+                .descricao("Teste-2")
+                .dataCadastro(LocalDate.of(2021, 03, 26))
+                .valor(new BigDecimal("100.00"))
+                .fabricante("Teste-2")
+                .build();
+
+        ProdutoJsonOutput[] listaEsperada = {outputExperado1, outputExperado2};
+
+        ProdutoJsonOutput[] output = given()
+                .accept(ContentType.JSON)
+                .log().all()
+                .when()
+                .get(urlRecurso + "/lista")
+                .then()
+                .statusCode(HttpStatus.OK.value())
+                .contentType(ContentType.JSON)
+                .log().all()
+                .extract().response().as(ProdutoJsonOutput[].class);
+
+        assertThat(output, is(notNullValue()));
+
+        List<ProdutoJsonOutput> outputs = Arrays.asList(output);
+        assertThat(outputs, hasSize(2));
+        assertThat(outputs, hasItems(listaEsperada));
+
+    }
+
+    @Test
+    @DataSet(provider = ListaProdutosDataSetProvider.class, cleanAfter = true)
+    @ExpectedDataSet(provider = ProdutoDataSetProvider.class)
+    void deveExcluirERetornar204() {
+
+        given()
+                .pathParam("guid", "7de0b077875c45bcb4b6fd19f7d46f31")
+                .log().all()
+                .when()
+                .delete(urlRecurso + "/{guid}")
+                .then()
+                .statusCode(HttpStatus.NO_CONTENT.value())
+                .log().all();
+    }
+
+    @Test
+    @DataSet(provider = ListaProdutosDataSetProvider.class, cleanAfter = true)
+    void deveRetornar404QuandoGuidInformadoExclusaoNaoExistir() {
+
+        given()
+                .pathParam("guid", "7de0b077875c45bcb4b6fd19f7d46999")
+                .log().all()
+                .when()
+                .delete(urlRecurso + "/{guid}")
+                .then()
+                .statusCode(HttpStatus.NOT_FOUND.value())
+                .log().all();
+    }
+
+    @Test
+    @DataSet(provider = ListaProdutosDataSetProvider.class, cleanAfter = true)
+    void deveDevolverProdutoNoCorpoERetornar200() {
+
+        ProdutoJsonOutput outputExperado = ProdutoJsonOutput
+                .builder()
+                .guid("7de0b077875c45bcb4b6fd19f7d46f31")
+                .nome("Teste-2")
+                .descricao("Teste-2")
+                .dataCadastro(LocalDate.of(2021, 03, 26))
+                .valor(new BigDecimal("100.00"))
+                .fabricante("Teste-2")
+                .build();
+
+        ProdutoJsonOutput output = given()
+                .pathParam("guid", "7de0b077875c45bcb4b6fd19f7d46f31")
+                .accept(ContentType.JSON)
+                .when()
+                .get(urlRecurso + "/{guid}")
+                .then()
+                .statusCode(HttpStatus.OK.value())
+                .contentType(ContentType.JSON)
+                .log().all()
+                .extract().response().as(ProdutoJsonOutput.class);
+
+        assertThat(output, is(notNullValue()));
+        assertThat(output, equalTo(outputExperado));
+
+    }
+
+    @Test
+    @DataSet(provider = ListaProdutosDataSetProvider.class, cleanAfter = true)
+    void deveRetornar404QuandoGuidInformadoConsultaNaoExistir() {
+
+        given()
+                .pathParam("guid", "7de0b077875c45bcb4b6fd19f7d46999")
+                .when()
+                .get(urlRecurso + "/{guid}")
+                .then()
+                .statusCode(HttpStatus.NOT_FOUND.value())
+                .log().all();
+
+    }
+
+    @Test
+    @DataSet(provider = ProdutoDataSetProvider.class, cleanAfter = true)
+    @ExpectedDataSet(provider = ProdutoPosEdicaoDataSetProvider.class)
     void deveAlterarERetornar204() {
 
         ProdutoJsonPutInput input = ProdutoJsonPutInput
@@ -57,19 +182,19 @@ class ProdutoRestControllerIT {
                 .build();
 
         given()
-            .contentType(ContentType.JSON)
-            .body(input)
-            .pathParam("guid", "8fa845b01c134bcf9de0de1ec2ff8765")
-            .log().all()
-        .when()
-            .put(urlRecurso + "/{guid}")
-        .then()
-            .statusCode(HttpStatus.NO_CONTENT.value())
-            .log().all();
+                .contentType(ContentType.JSON)
+                .body(input)
+                .pathParam("guid", "8fa845b01c134bcf9de0de1ec2ff8765")
+                .log().all()
+                .when()
+                .put(urlRecurso + "/{guid}")
+                .then()
+                .statusCode(HttpStatus.NO_CONTENT.value())
+                .log().all();
     }
 
     @Test
-    @DataSet(value = "datasets/produto/produto.yml", cleanAfter = true)
+    @DataSet(provider = ProdutoDataSetProvider.class, cleanAfter = true)
     void deveRetornar404QuandoGuidInformadoNaoExistir() {
 
         ProdutoJsonPutInput input = ProdutoJsonPutInput
@@ -82,41 +207,41 @@ class ProdutoRestControllerIT {
                 .build();
 
         given()
-            .contentType(ContentType.JSON)
-            .body(input)
-            .pathParam("guid", "8fa845b01c134bcf9de0de1ec2ff8999")
-            .log().all()
-        .when()
-            .put(urlRecurso + "/{guid}")
-        .then()
-            .statusCode(HttpStatus.NOT_FOUND.value())
-            .log().all();
+                .contentType(ContentType.JSON)
+                .body(input)
+                .pathParam("guid", "8fa845b01c134bcf9de0de1ec2ff8999")
+                .log().all()
+                .when()
+                .put(urlRecurso + "/{guid}")
+                .then()
+                .statusCode(HttpStatus.NOT_FOUND.value())
+                .log().all();
     }
 
     @Test
-    @DataSet(value = "datasets/produto/produto.yml", cleanAfter = true)
+    @DataSet(provider = ProdutoDataSetProvider.class, cleanAfter = true)
     void deveCadastrarERetornar201ComLocationDoRecursoCriado() {
 
         ProdutoJsonPostInput input = ProdutoJsonPostInput
                 .builder()
-                .nome("Teste-IT")
-                .descricao("Teste-IT")
+                .nome("Teste-2")
+                .descricao("Teste-2")
                 .valor(new BigDecimal("100.00"))
-                .fabricante("Teste-IT")
+                .fabricante("Teste-2")
                 .build();
 
         Response response = given()
-                    .accept(ContentType.JSON)
-                    .contentType(ContentType.JSON)
-                    .body(input)
-                    .log().all()
+                .accept(ContentType.JSON)
+                .contentType(ContentType.JSON)
+                .body(input)
+                .log().all()
                 .when()
-                    .post(urlRecurso)
+                .post(urlRecurso)
                 .then()
-                    .statusCode(HttpStatus.CREATED.value())
-                    .contentType(ContentType.JSON)
-                    .log().all()
-                    .extract().response();
+                .statusCode(HttpStatus.CREATED.value())
+                .contentType(ContentType.JSON)
+                .log().all()
+                .extract().response();
 
         ProdutoJsonOutput output = response.body().as(ProdutoJsonOutput.class);
 
@@ -130,7 +255,7 @@ class ProdutoRestControllerIT {
     }
 
     @Test
-    @DataSet(value = "datasets/produto/produto.yml", cleanAfter = true)
+    @DataSet(provider = ProdutoDataSetProvider.class, cleanAfter = true)
     void deveRetornar422EValidacoesNoCorpoDaRespostaQuandoNomeDuplicado() {
 
         ProdutoJsonPostInput input = ProdutoJsonPostInput
@@ -142,17 +267,17 @@ class ProdutoRestControllerIT {
                 .build();
 
         ErroValidacaoDadosJsonOutput output = given()
-                    .accept(ContentType.JSON)
-                    .contentType(ContentType.JSON)
-                    .body(input)
-                    .log().all()
+                .accept(ContentType.JSON)
+                .contentType(ContentType.JSON)
+                .body(input)
+                .log().all()
                 .when()
-                    .post(urlRecurso)
+                .post(urlRecurso)
                 .then()
-                    .statusCode(HttpStatus.UNPROCESSABLE_ENTITY.value())
-                    .contentType(ContentType.JSON)
-                    .log().all()
-                    .extract().response().body().as(ErroValidacaoDadosJsonOutput.class);
+                .statusCode(HttpStatus.UNPROCESSABLE_ENTITY.value())
+                .contentType(ContentType.JSON)
+                .log().all()
+                .extract().response().body().as(ErroValidacaoDadosJsonOutput.class);
 
         assertThat(output, is(notNullValue()));
         assertThat(output.getPath(), equalTo(urlRecurso));
@@ -167,7 +292,7 @@ class ProdutoRestControllerIT {
     }
 
     @Test
-    @DataSet(value = "datasets/produto/produto.yml", cleanAfter = true)
+    @DataSet(provider = ProdutoDataSetProvider.class, cleanAfter = true)
     void deveRetornar422EValidacoesNoCorpoDaRespostaQuandoInvalido() {
 
         ProdutoJsonPostInput input = ProdutoJsonPostInput
@@ -175,17 +300,17 @@ class ProdutoRestControllerIT {
                 .build();
 
         ErroValidacaoDadosJsonOutput output = given()
-                    .accept(ContentType.JSON)
-                    .contentType(ContentType.JSON)
-                    .body(input)
-                    .log().all()
+                .accept(ContentType.JSON)
+                .contentType(ContentType.JSON)
+                .body(input)
+                .log().all()
                 .when()
-                    .post(urlRecurso)
+                .post(urlRecurso)
                 .then()
-                    .statusCode(HttpStatus.UNPROCESSABLE_ENTITY.value())
-                    .contentType(ContentType.JSON)
-                    .log().all()
-                    .extract().response().body().as(ErroValidacaoDadosJsonOutput.class);
+                .statusCode(HttpStatus.UNPROCESSABLE_ENTITY.value())
+                .contentType(ContentType.JSON)
+                .log().all()
+                .extract().response().body().as(ErroValidacaoDadosJsonOutput.class);
 
         assertThat(output, is(notNullValue()));
         assertThat(output.getPath(), equalTo(urlRecurso));

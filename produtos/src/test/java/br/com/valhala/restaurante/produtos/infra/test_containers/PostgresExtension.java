@@ -16,11 +16,15 @@ public class PostgresExtension implements BeforeAllCallback, AfterAllCallback {
 
     @Override
     public void beforeAll(ExtensionContext extensionContext) throws Exception {
-        postgresql = new PostgreSQLContainer<>("postgres:latest");
+        postgresql = new PostgreSQLContainer<>("postgres:alpine").withEnv("TZ", "GMT").withEnv("PGTZ", "GMT");
         postgresql.start();
         System.setProperty("spring.datasource.url", postgresql.getJdbcUrl());
         System.setProperty("spring.datasource.username", postgresql.getUsername());
         System.setProperty("spring.datasource.password", postgresql.getPassword());
+        System.setProperty("spring.datasource.driver-class-name", "org.postgresql.Driver");
+        System.setProperty("spring.jpa.database", "postgresql");
+        System.setProperty("spring.jpa.database-platform", "org.hibernate.dialect.PostgreSQLDialect");
+
     }
 
 }

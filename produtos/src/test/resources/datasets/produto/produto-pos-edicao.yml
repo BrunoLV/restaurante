@@ -1,7 +1,0 @@
-tb_produtos:
-  - guid: 8fa845b01c134bcf9de0de1ec2ff8765
-    nome: Teste-edicao
-    descricao: Teste-edicao
-    data_cadastro: 2021-03-26
-    valor: 101.00
-    fabricante: Teste-edicao

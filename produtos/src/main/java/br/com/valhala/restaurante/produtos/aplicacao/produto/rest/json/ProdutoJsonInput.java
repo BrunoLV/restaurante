@@ -1,9 +1,6 @@
 package br.com.valhala.restaurante.produtos.aplicacao.produto.rest.json;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
@@ -14,6 +11,8 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
+@EqualsAndHashCode
+@ToString
 abstract class ProdutoJsonInput implements Serializable {
 
     private String nome;

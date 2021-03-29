@@ -2,6 +2,10 @@ package br.com.valhala.restaurante.produtos.infra.produto.repositorio.jpa;
 
 import br.com.valhala.restaurante.aplicacao.exceptions.ModeloNaoEncontradoException;
 import br.com.valhala.restaurante.produtos.dominio.produto.modelo.Produto;
+import br.com.valhala.restaurante.produtos.infra.dbrider.providers.ListaProdutosDataSetProvider;
+import br.com.valhala.restaurante.produtos.infra.dbrider.providers.ProdutoDataSetProvider;
+import br.com.valhala.restaurante.produtos.infra.dbrider.providers.ProdutoPosEdicaoDataSetProvider;
+import br.com.valhala.restaurante.produtos.infra.dbrider.providers.ProdutoPosInclusaoDataSetProvider;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import com.github.database.rider.spring.api.DBRider;
@@ -26,8 +30,8 @@ class RepositorioProdutoJpaTest {
     RepositorioProdutoJpa repositorioProdutoJpa;
 
     @Test
-    @DataSet(value = "datasets/produto/produto.yml", transactional = true, cleanAfter = true)
-    @ExpectedDataSet(value = "datasets/produto/produto-pos-inclusao.yml", ignoreCols = {"data_cadastro"})
+    @DataSet(provider = ProdutoDataSetProvider.class, transactional = true, cleanAfter = true)
+    @ExpectedDataSet(provider = ProdutoPosInclusaoDataSetProvider.class)
     void deveIncluirProdutoComSucesso() {
         Produto produto = Produto
                 .builder()
@@ -35,15 +39,15 @@ class RepositorioProdutoJpaTest {
                 .nome("Teste-2")
                 .descricao("Teste-2")
                 .valor(new BigDecimal("100.00"))
-                .dataCadastro(LocalDate.of(2021, 03, 26))
+                .dataCadastro(LocalDate.now())
                 .fabricante("Teste-2")
                 .build();
         repositorioProdutoJpa.cria(produto);
     }
 
     @Test
-    @DataSet(value = "datasets/produto/produto.yml", transactional = true, cleanAfter = true)
-    @ExpectedDataSet(value = "datasets/produto/produto-pos-edicao.yml", ignoreCols = {"data_cadastro"})
+    @DataSet(provider = ProdutoDataSetProvider.class, transactional = true, cleanAfter = true)
+    @ExpectedDataSet(provider = ProdutoPosEdicaoDataSetProvider.class)
     void deveEditarProdutoComSucesso() {
         Produto produto = Produto
                 .builder()
@@ -58,7 +62,7 @@ class RepositorioProdutoJpaTest {
     }
 
     @Test
-    @DataSet(value = "datasets/produto/produto.yml", transactional = true, cleanAfter = true)
+    @DataSet(provider = ProdutoDataSetProvider.class, transactional = true, cleanAfter = true)
     void deveDispararModeloNaoEncontradoExceptionQuandoInformadoGuidNaoCadastradoNaEdicao() {
         Produto produto = Produto
                 .builder()
@@ -76,7 +80,7 @@ class RepositorioProdutoJpaTest {
     }
 
     @Test
-    @DataSet(value = "datasets/produto/produto.yml", transactional = true, cleanAfter = true)
+    @DataSet(provider = ProdutoDataSetProvider.class, transactional = true, cleanAfter = true)
     void deveExcluirProdutoComSucesso() {
         Produto produto = repositorioProdutoJpa.buscaPorGuid("8fa845b01c134bcf9de0de1ec2ff8765");
         assertThat(produto).isNotNull();
@@ -87,7 +91,7 @@ class RepositorioProdutoJpaTest {
     }
 
     @Test
-    @DataSet(value = "datasets/produto/produto.yml", transactional = true, cleanAfter = true)
+    @DataSet(provider = ProdutoDataSetProvider.class, transactional = true, cleanAfter = true)
     void deveDispararModeloNaoEncontradoExceptionQuandoInformadoGuidNaoCadastradoNaExclusao() {
         Produto produto = Produto.builder().guid("8fa845b01c134bcf9de0de1ec2ff8999").build();
         assertThatExceptionOfType(ModeloNaoEncontradoException.class)
@@ -96,7 +100,7 @@ class RepositorioProdutoJpaTest {
     }
 
     @Test
-    @DataSet(value = "datasets/produto/produto.yml", cleanAfter = true)
+    @DataSet(provider = ProdutoDataSetProvider.class, cleanAfter = true)
     void deveRetornaProdutoCadastradoComGuidInformado() {
         String guid = "8fa845b01c134bcf9de0de1ec2ff8765";
         Produto produto = repositorioProdutoJpa.buscaPorGuid(guid);
@@ -104,7 +108,7 @@ class RepositorioProdutoJpaTest {
     }
 
     @Test
-    @DataSet(value = "datasets/produto/produto.yml", cleanAfter = true)
+    @DataSet(provider = ProdutoDataSetProvider.class, cleanAfter = true)
     void deveDispararModeloNaoEncontradoExceptionQuandoInformadoGuidNaoCadastrado() {
         String guid = "8fa845b01c134bcf9de0de1ec2ff8784";
         assertThatExceptionOfType(ModeloNaoEncontradoException.class)
@@ -113,7 +117,7 @@ class RepositorioProdutoJpaTest {
     }
 
     @Test
-    @DataSet(value = "datasets/produto/produto-lista.yml", cleanAfter = true)
+    @DataSet(provider = ListaProdutosDataSetProvider.class, cleanAfter = true)
     void deveListarTodosProdutosCadastrados() {
         Collection<Produto> produtos = repositorioProdutoJpa.lista();
         assertThat(produtos)

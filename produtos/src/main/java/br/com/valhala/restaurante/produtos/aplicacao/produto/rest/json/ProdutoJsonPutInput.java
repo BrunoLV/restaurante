@@ -1,9 +1,6 @@
 package br.com.valhala.restaurante.produtos.aplicacao.produto.rest.json;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 @Getter
@@ -11,6 +8,8 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 public class ProdutoJsonPutInput extends ProdutoJsonInput {
 
     private String guid;

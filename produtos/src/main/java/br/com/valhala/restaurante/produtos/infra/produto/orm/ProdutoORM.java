@@ -1,6 +1,7 @@
 package br.com.valhala.restaurante.produtos.infra.produto.orm;
 
 import lombok.*;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.Serializable;
