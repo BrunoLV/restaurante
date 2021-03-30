@@ -1,0 +1,20 @@
+= Documentação API Produtos
+
+== Introdução
+Essa se trata de uma API de Produtos do Restaurante que dispõe das principais ações de CRUD e de consulta relacionadas a Produto.
+
+=== Obter Produto po Guid
+Obtem produto passando o seu Guid na URL do serviço utilizando o método GET.
+
+==== Requição
+include::{snippets}/produto/obtem-por-guid/path-parameters.adoc[]
+===== Exemplo de Requisicao
+include::{snippets}/produto/obtem-por-guid/http-request.adoc[]
+
+==== Resposta
+include::{snippets}/produto/obtem-por-guid/response-fields.adoc[]
+===== Exemplo de Resposta
+include::{snippets}/produto/obtem-por-guid/http-response.adoc[]
+
+==== Exemplo chamada CURL
+include::{snippets}/produto/obtem-por-guid/curl-request.adoc[]
