@@ -1,0 +1,41 @@
+version: "3.8"
+
+services:
+
+  db:
+    image: postgres:alpine
+    environment:
+      - POSTGRES_PASSWORD=produtos
+      - POSTGRES_USER=produtos
+      - POSTGRES_DB=produtos-db
+    ports:
+      - 5432:5432
+
+  produtos:
+    image: produtos:1.0-SNAPSHOT
+    ports:
+      - 8080:8080
+    environment:
+      - PRODUTO_DB_HOST=database
+      - PRODUTO_DB_PORT=5432
+      - PRODUTO_DB_USER=produtos
+      - PRODUTO_DB_PASSWORD=produtos
+    links:
+      - "db:database"
+    depends_on:
+      - db
+    restart: on-failure
+
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    links:
+      - "produtos:produtos"
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - 3001:3000
