@@ -11,6 +11,11 @@ services:
     ports:
       - 5432:5432
 
+  service-discovery:
+    image: service-discovery:1.0-SNAPSHOT
+    ports:
+      - 8761:8761
+
   produtos:
     image: produtos:1.0-SNAPSHOT
     ports:
@@ -20,10 +25,14 @@ services:
       - PRODUTO_DB_PORT=5432
       - PRODUTO_DB_USER=produtos
       - PRODUTO_DB_PASSWORD=produtos
+      - EUREKA_SERVER_HOST=eureka
+      - EUREKA_SERVER_PORT=8761
     links:
       - "db:database"
+      - "service-discovery:eureka"
     depends_on:
       - db
+      - service-discovery
     restart: on-failure
 
   prometheus:

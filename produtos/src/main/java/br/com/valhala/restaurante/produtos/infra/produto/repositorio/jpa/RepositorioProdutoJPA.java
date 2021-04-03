@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
-public class RepositorioProdutoJpa implements RepositorioProduto {
+public class RepositorioProdutoJPA implements RepositorioProduto {
 
     private final RepositorioProdutoSpringData repositorio;
     private final ConversorProdutoModeloParaORM conversorProdutoModeloParaORM;

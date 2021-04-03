@@ -27,7 +27,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 class RepositorioProdutoJpaTest {
 
     @Autowired
-    RepositorioProdutoJpa repositorioProdutoJpa;
+    RepositorioProdutoJPA repositorioProdutoJpa;
 
     @Test
     @DataSet(provider = ProdutoDataSetProvider.class, transactional = true, cleanAfter = true)

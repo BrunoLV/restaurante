@@ -21,7 +21,7 @@ public class ValidadorProdutoImpl implements ValidadorProduto {
     public ResultadoValidacao valida(Produto modelo) {
         ResultadoValidacao resultado = new ResultadoValidacao();
         Set<ConstraintViolation<Produto>> violacoes = validator.validate(modelo);
-        violacoes.stream().map(v -> new Erro(v.getPropertyPath().toString(), v.getMessage())).forEach(e -> resultado.adicionaErro(e));
+        violacoes.stream().map(v -> new Erro(v.getPropertyPath().toString(), v.getMessage())).forEach(resultado::adicionaErro);
         return resultado;
     }
 

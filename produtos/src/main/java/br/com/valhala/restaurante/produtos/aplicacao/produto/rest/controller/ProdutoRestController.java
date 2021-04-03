@@ -41,7 +41,7 @@ class ProdutoRestController {
     @PostMapping(value = {"", "/"}, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<ProdutoJsonOutput> cria(@RequestBody ProdutoJsonPostInput input, UriComponentsBuilder builder) {
         ComandoCriaProduto comando = conversorProdutoJsonInputParaComandoCriacao.converte(input);
-        Produto produto = executorComandoCriaProduto.executaRetornoProdutoCriado(comando);
+        Produto produto = executorComandoCriaProduto.executaRetornandoProdutoCriado(comando);
         URI uri = builder.path("/produto/").path(produto.getGuid()).build().toUri();
         ProdutoJsonOutput output = conversorProdutoModeloParaProdutoJsonOutput.converte(produto);
         return ResponseEntity.created(uri).body(output);

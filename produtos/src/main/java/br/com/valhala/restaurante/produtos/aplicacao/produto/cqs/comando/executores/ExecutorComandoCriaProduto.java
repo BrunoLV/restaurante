@@ -6,6 +6,6 @@ import br.com.valhala.restaurante.produtos.dominio.produto.modelo.Produto;
 
 public interface ExecutorComandoCriaProduto extends ExecutorComando<ComandoCriaProduto> {
 
-    Produto executaRetornoProdutoCriado(ComandoCriaProduto comando);
+    Produto executaRetornandoProdutoCriado(ComandoCriaProduto comando);
 
 }

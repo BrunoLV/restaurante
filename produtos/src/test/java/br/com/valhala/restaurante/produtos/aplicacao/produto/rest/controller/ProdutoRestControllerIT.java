@@ -8,7 +8,6 @@ import br.com.valhala.restaurante.produtos.aplicacao.produto.rest.json.ProdutoJs
 import br.com.valhala.restaurante.produtos.infra.dbrider.providers.ListaProdutosDataSetProvider;
 import br.com.valhala.restaurante.produtos.infra.dbrider.providers.ProdutoDataSetProvider;
 import br.com.valhala.restaurante.produtos.infra.dbrider.providers.ProdutoPosEdicaoDataSetProvider;
-import br.com.valhala.restaurante.produtos.infra.dbrider.providers.ProdutoPosInclusaoDataSetProvider;
 import br.com.valhala.restaurante.produtos.infra.test_containers.PostgresExtension;
 import com.github.database.rider.core.api.configuration.DBUnit;
 import com.github.database.rider.core.api.configuration.Orthography;
@@ -17,7 +16,6 @@ import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import com.github.database.rider.spring.api.DBRider;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

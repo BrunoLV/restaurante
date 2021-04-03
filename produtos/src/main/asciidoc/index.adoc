@@ -1,54 +1,73 @@
 = Documentação API Produtos
 
 == Introdução
+
 Essa se trata de uma API de Produtos do Restaurante que dispõe das principais ações de CRUD e de consulta relacionadas a Produto.
 
 === Obter Produto po Guid
+
 Obtem produto passando o seu Guid na URL do serviço utilizando o método GET.
 
 ==== Requição
+
 include::{snippets}/produto/obtem-por-guid/path-parameters.adoc[]
 ===== Exemplo de Requisição
+
 include::{snippets}/produto/obtem-por-guid/http-request.adoc[]
 
 ==== Resposta
+
 include::{snippets}/produto/obtem-por-guid/response-fields.adoc[]
 ===== Exemplo de Resposta
+
 include::{snippets}/produto/obtem-por-guid/http-response.adoc[]
 
 ==== Exemplo chamada CURL
+
 include::{snippets}/produto/obtem-por-guid/curl-request.adoc[]
 
 '''
 
 === Obter Lista de Produtos
+
 Obtem lista de produtos cadastros no sistema.
 
 ==== Requisição
+
 ===== Exemplo de Requisição
+
 include::{snippets}/produto/lista/http-request.adoc[]
 
 ==== Resposta
+
 include::{snippets}/produto/lista/response-fields.adoc[]
 ===== Exemplo de Resposta
+
 include::{snippets}/produto/lista/http-response.adoc[]
 
 ==== Exemplo chamada CURL
+
 include::{snippets}/produto/lista/curl-request.adoc[]
 
 '''
 
 === Excluir Produto
+
 Exclui Produto identificado pelo Guid passado no serviço.
 
 ==== Requisição
+
 include::{snippets}/produto/exclui/path-parameters.adoc[]
 ===== Exemplo de Requisição
+
 include::{snippets}/produto/exclui/http-request.adoc[]
 
 ==== Resposta
+
 ===== Exemplo de Resposta
+
 include::{snippets}/produto/exclui/http-response.adoc[]
 
 === Exemplo chamada CURL
+
 include::{snippets}/produto/exclui/curl-request.adoc[]

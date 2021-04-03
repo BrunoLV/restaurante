@@ -22,7 +22,7 @@ public class ExecutorComandoCriaProdutoImpl implements ExecutorComandoCriaProdut
 
     @Transactional
     @Override
-    public Produto executaRetornoProdutoCriado(ComandoCriaProduto comando) {
+    public Produto executaRetornandoProdutoCriado(ComandoCriaProduto comando) {
         Produto produto = servico.cria(geraDadosOperacao(comando));
         return produto;
     }

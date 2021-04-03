@@ -1,7 +1,6 @@
 package br.com.valhala.restaurante.produtos.infra.produto.orm;
 
 import lombok.*;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -19,8 +18,8 @@ public class ProdutoORM implements Serializable {
 
     @EqualsAndHashCode.Include
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
 
     @Column(name = "guid", length = 100, nullable = false, unique = true)
