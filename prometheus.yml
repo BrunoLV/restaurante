@@ -16,3 +16,9 @@ scrape_configs:
     scrape_interval: 5s
     static_configs:
       - targets: [ 'produtos:8080' ]
+
+  - job_name: 'monitor_comandas'
+    metrics_path: '/api-comandas/actuator/prometheus'
+    scrape_interval: 5s
+    static_configs:
+      - targets: [ 'comandas:8081' ]

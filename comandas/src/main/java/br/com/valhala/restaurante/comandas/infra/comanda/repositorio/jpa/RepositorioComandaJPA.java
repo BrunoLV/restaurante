@@ -2,6 +2,7 @@ package br.com.valhala.restaurante.comandas.infra.comanda.repositorio.jpa;
 
 import br.com.valhala.restaurante.aplicacao.exceptions.ModeloNaoEncontradoException;
 import br.com.valhala.restaurante.comandas.dominio.comanda.modelo.Comanda;
+import br.com.valhala.restaurante.comandas.dominio.comanda.repositorio.RepositorioComanda;
 import br.com.valhala.restaurante.comandas.infra.comanda.orm.ComandaORM;
 import br.com.valhala.restaurante.comandas.infra.comanda.orm.ItemORM;
 import br.com.valhala.restaurante.comandas.infra.comanda.orm.conversores.ConversorComandaModeloParaORM;
@@ -16,7 +17,7 @@ import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
-public class RepositorioComandaJPA implements Repositorio<Comanda> {
+public class RepositorioComandaJPA implements RepositorioComanda {
 
     private final RepositorioComandaSpringData repositorio;
     private final ConversorComandaModeloParaORM conversorComandaModeloParaORM;

@@ -21,6 +21,7 @@ public class ComandoEditaComanda implements Comando {
     @AllArgsConstructor
     @Builder
     public static class Item {
+        private String guid;
         private BigDecimal valorUnitario;
         private Integer quantidade;
         private String guidProduto;

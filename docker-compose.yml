@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
 
-  db:
+  db_produto:
     image: postgres:alpine
     environment:
       - POSTGRES_PASSWORD=produtos
@@ -10,6 +10,15 @@ services:
       - POSTGRES_DB=produtos-db
     ports:
       - 5432:5432
+
+  db_comanda:
+    image: postgres:alpine
+    environment:
+      - POSTGRES_PASSWORD=comandas
+      - POSTGRES_USER=comandas
+      - POSTGRES_DB=comandas-db
+    ports:
+      - 5433:5432
 
   service-discovery:
     image: service-discovery:1.0-SNAPSHOT
@@ -28,10 +37,29 @@ services:
       - EUREKA_SERVER_HOST=eureka
       - EUREKA_SERVER_PORT=8761
     links:
-      - "db:database"
+      - "db_produto:database"
       - "service-discovery:eureka"
     depends_on:
-      - db
+      - db_produto
+      - service-discovery
+    restart: on-failure
+
+  comandas:
+    image: comandas:1.0-SNAPSHOT
+    ports:
+      - 8081:8080
+    environment:
+      - COMANDA_DB_HOST=database
+      - COMANDA_DB_PORT=5432
+      - COMANDA_DB_USER=comandas
+      - COMANDA_DB_PASSWORD=comandas
+      - EUREKA_SERVER_HOST=eureka
+      - EUREKA_SERVER_PORT=8761
+    links:
+      - "db_comanda:database"
+      - "service-discovery:eureka"
+    depends_on:
+      - db_comanda
       - service-discovery
     restart: on-failure
 

@@ -1,24 +1,23 @@
-package br.com.valhala.restaurante.comandas.infra.comanda.orm.conversores;
+package br.com.valhala.restaurante.comandas.infra.comanda.rest.conversores;
 
 import br.com.valhala.restaurante.aplicacao.conversao.Conversor;
 import br.com.valhala.restaurante.comandas.dominio.comanda.modelo.Item;
-import br.com.valhala.restaurante.comandas.infra.comanda.orm.ItemORM;
-import lombok.RequiredArgsConstructor;
+import br.com.valhala.restaurante.comandas.infra.comanda.rest.json.saida.ItemJsonOutput;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ConversorItemModeloParaORM implements Conversor<Item, ItemORM> {
+class ConversorItemModeloParaItemOutputJson implements Conversor<Item, ItemJsonOutput> {
 
     @Override
-    public ItemORM converte(Item source) {
-        return ItemORM
+    public ItemJsonOutput converte(Item source) {
+        return ItemJsonOutput
                 .builder()
                 .guid(source.getGuid())
+                .guidProduto(source.getProduto().getGuid())
                 .nome(source.getProduto().getNome())
                 .fabricante(source.getProduto().getFabricante())
                 .valorUnitario(source.getValorUnitario())
                 .quantidade(source.getQuantidade())
-                .guidProduto(source.getProduto().getGuid())
                 .build();
     }
 
