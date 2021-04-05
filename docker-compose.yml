@@ -71,6 +71,7 @@ services:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
     links:
       - "produtos:produtos"
+      - "comandas:comandas"
 
   grafana:
     image: grafana/grafana

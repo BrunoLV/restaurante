@@ -45,7 +45,7 @@ class ProdutoRestControllerIT {
 
     @BeforeEach
     void setup() {
-        urlRecurso = String.format("http://localhost:%d/api/produto", porta);
+        urlRecurso = String.format("http://localhost:%d/api-produto/produto", porta);
     }
 
     @Test
@@ -247,7 +247,7 @@ class ProdutoRestControllerIT {
         assertThat(output, is(notNullValue()));
         assertThat(output.getGuid(), is(notNullValue()));
 
-        String locationEsperado = "http://localhost:" + porta + "/api/produto/" + output.getGuid();
+        String locationEsperado = urlRecurso + "/" + output.getGuid();
 
         assertThat(response.getHeaders().hasHeaderWithName("Location"), is(true));
         assertThat(response.getHeader("Location"), equalTo(locationEsperado));

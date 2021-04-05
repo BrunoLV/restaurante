@@ -7,6 +7,7 @@ import java.util.Collection;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
 @EqualsAndHashCode(callSuper = true)

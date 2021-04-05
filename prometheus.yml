@@ -12,13 +12,13 @@ scrape_configs:
       - targets: [ 'localhost:9090' ]
 
   - job_name: 'monitor_produtos'
-    metrics_path: '/api-produtos/actuator/prometheus'
+    metrics_path: '/api-produto/actuator/prometheus'
     scrape_interval: 5s
     static_configs:
       - targets: [ 'produtos:8080' ]
 
   - job_name: 'monitor_comandas'
-    metrics_path: '/api-comandas/actuator/prometheus'
+    metrics_path: '/api-comanda/actuator/prometheus'
     scrape_interval: 5s
     static_configs:
-      - targets: [ 'comandas:8081' ]
+      - targets: [ 'comandas:8080' ]
