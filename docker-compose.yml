@@ -20,6 +20,11 @@ services:
     ports:
       - 5433:5432
 
+  admin-server:
+    image: admin-server:1.0-SNAPSHOT
+    ports:
+      - 8182:8080
+
   service-discovery:
     image: service-discovery:1.0-SNAPSHOT
     ports:
@@ -36,11 +41,15 @@ services:
       - PRODUTO_DB_PASSWORD=produtos
       - EUREKA_SERVER_HOST=eureka
       - EUREKA_SERVER_PORT=8761
+      - ADMIN_SERVER_HOST=admin
+      - ADMIN_SERVER_PORT=8080
     links:
       - "db_produto:database"
       - "service-discovery:eureka"
+      - "admin-server:admin"
     depends_on:
       - db_produto
+      - admin-server
       - service-discovery
     restart: on-failure
 
@@ -55,11 +64,15 @@ services:
       - COMANDA_DB_PASSWORD=comandas
       - EUREKA_SERVER_HOST=eureka
       - EUREKA_SERVER_PORT=8761
+      - ADMIN_SERVER_HOST=admin
+      - ADMIN_SERVER_PORT=8080
     links:
       - "db_comanda:database"
       - "service-discovery:eureka"
+      - "admin-server:admin"
     depends_on:
       - db_comanda
+      - admin-server
       - service-discovery
     restart: on-failure
 
@@ -77,3 +90,5 @@ services:
     image: grafana/grafana
     ports:
       - 3001:3000
+    depends_on:
+      - prometheus

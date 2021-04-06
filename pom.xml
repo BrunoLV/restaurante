@@ -11,6 +11,7 @@
 
     <modules>
         <module>lib-comuns</module>
+        <module>admin-server</module>
         <module>service-discovery</module>
         <module>produtos</module>
         <module>comandas</module>

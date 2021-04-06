@@ -1,4 +1,4 @@
-FROM adoptopenjdk:15-jre-hotspot
+FROM openjdk:15-alpine
 ARG JAR_FILE
 ADD ${JAR_FILE} /app/app.jar
 EXPOSE 8080

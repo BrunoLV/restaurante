@@ -1,4 +1,4 @@
-package br.com.valhala.restaurante.produtos.infra.produto.rest.controller.documentacao;
+package br.com.valhala.restaurante.produtos.infra.produto.rest.controller;
 
 import br.com.valhala.restaurante.produtos.infra.produto.rest.json.entrada.ProdutoJsonPostInput;
 import br.com.valhala.restaurante.produtos.infra.produto.rest.json.entrada.ProdutoJsonPutInput;
@@ -38,9 +38,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 @DBRider
-class ProdutoRestControllerDocumentationTest {
+class ProdutoRestControllerTest {
 
-    private static final String BASE_PATH = "/produto";
+    private static final String SERVLET_CONTEXT = "/api-produto";
+    private static final String RESOURCE_PATH = "/api-produto/produto";
 
     private static final FieldDescriptor[] PRODUTO_POST_FIELD_DESCRIPTOR = new FieldDescriptor[]{
             fieldWithPath("nome").description("Nome do Produto."),
@@ -96,7 +97,7 @@ class ProdutoRestControllerDocumentationTest {
     @DataSet(provider = ProdutoDataSetProvider.class, cleanAfter = true)
     void excluiProduto() throws Exception {
         this.mockMvc
-                .perform(delete(BASE_PATH + "/{guid}", "8fa845b01c134bcf9de0de1ec2ff8765"))
+                .perform(delete(RESOURCE_PATH + "/{guid}", "8fa845b01c134bcf9de0de1ec2ff8765").contextPath(SERVLET_CONTEXT))
                 .andExpect(status().isNoContent())
                 .andDo(document("produto/exclui",
                         pathParameters(PRODUTO_GUID_PARAM_DESCRIPTOR)
@@ -107,7 +108,7 @@ class ProdutoRestControllerDocumentationTest {
     @DataSet(provider = ProdutoDataSetProvider.class, cleanAfter = true)
     void obtemPorGuid() throws Exception {
         this.mockMvc
-                .perform(get(BASE_PATH + "/{guid}", "8fa845b01c134bcf9de0de1ec2ff8765"))
+                .perform(get(RESOURCE_PATH + "/{guid}", "8fa845b01c134bcf9de0de1ec2ff8765").contextPath(SERVLET_CONTEXT))
                 .andExpect(status().isOk())
                 .andDo(document("produto/obtem-por-guid",
                         pathParameters(PRODUTO_GUID_PARAM_DESCRIPTOR),
@@ -119,7 +120,7 @@ class ProdutoRestControllerDocumentationTest {
     @DataSet(provider = ListaProdutosDataSetProvider.class, cleanAfter = true)
     void obtemListaProdutos() throws Exception {
         this.mockMvc
-                .perform(get(BASE_PATH + "/lista"))
+                .perform(get(RESOURCE_PATH + "/lista").contextPath(SERVLET_CONTEXT))
                 .andExpect(status().isOk())
                 .andDo(document("produto/lista",
                         responseFields(ARRAY_PRODUTO_FIELD_DESCRIPTOR)
@@ -143,7 +144,8 @@ class ProdutoRestControllerDocumentationTest {
         String json = objectMapper.writeValueAsString(putInput);
 
         this.mockMvc
-                .perform(put(BASE_PATH + "/{guid}", "8fa845b01c134bcf9de0de1ec2ff8765")
+                .perform(put(RESOURCE_PATH + "/{guid}", "8fa845b01c134bcf9de0de1ec2ff8765")
+                        .contextPath(SERVLET_CONTEXT)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isNoContent())
@@ -169,7 +171,8 @@ class ProdutoRestControllerDocumentationTest {
         String json = objectMapper.writeValueAsString(putInput);
 
         this.mockMvc
-                .perform(post(BASE_PATH)
+                .perform(post(RESOURCE_PATH)
+                        .contextPath(SERVLET_CONTEXT)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isCreated())
