@@ -22,6 +22,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -36,6 +37,7 @@ import static org.hamcrest.Matchers.*;
 @ExtendWith(PostgresExtension.class)
 @DBRider
 @DBUnit(caseInsensitiveStrategy = Orthography.LOWERCASE)
+@ActiveProfiles("integracao")
 class ProdutoRestControllerIT {
 
     @LocalServerPort

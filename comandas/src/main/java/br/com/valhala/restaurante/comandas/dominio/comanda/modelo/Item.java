@@ -29,10 +29,9 @@ public class Item implements Entidade, Cloneable {
     @NotNull
     private BigDecimal valorUnitario;
 
-    @NotBlank(message = "{item.quantidade.obrigatorio}")
+    @NotNull(message = "{item.quantidade.obrigatorio}")
     @Min(value = 1, message = "{item.quantidade.minimo}")
     private Integer quantidade;
-
 
     public static Item novo(Produto produto, BigDecimal valorUnitario, Integer quantidade) {
         return Item.of(GeradorGuid.geraGuid(), produto, valorUnitario, quantidade);

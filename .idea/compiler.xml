@@ -10,15 +10,20 @@
         <module name="lib-comuns" />
         <module name="admin-server" />
         <module name="comandas" />
+        <module name="demo" />
         <module name="produtos" />
         <module name="service-discovery" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="demo" target="11" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="admin-server" options="-parameters" />
       <module name="comandas" options="-parameters" />
+      <module name="demo" options="-parameters" />
       <module name="produtos" options="-parameters" />
       <module name="service-discovery" options="-parameters" />
     </option>

@@ -11,7 +11,7 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "tb_comanda")
+@Table(name = "tb_comandas")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
