@@ -64,9 +64,13 @@ include::{snippets}/produto/exclui/http-request.adoc[]
 
 ==== Resposta
 
-===== Exemplo de Resposta
+===== Exemplo de Resposta de Sucesso
 
 include::{snippets}/produto/exclui/http-response.adoc[]
+
+==== Exemplo de Exclusão Produto Inexistente
+
+include::{snippets}/produto/exclui-404/http-response.adoc[]
 
 === Exemplo chamada CURL
 
