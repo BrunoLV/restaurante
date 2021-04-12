@@ -253,6 +253,19 @@ class ProdutoRestControllerTest {
                 .valor(new BigDecimal("101.00"))
                 .fabricante("Teste-edicao")
                 .build();
+
+        String input = objectMapper.writeValueAsString(putInput);
+
+        this.mockMvc
+                .perform(put(RESOURCE_PATH + "/{guid}", "8fa845b01c134bcf9de0de1ec2ff9999")
+                        .contextPath(SERVLET_CONTEXT)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(input))
+                .andExpect(status().isNotFound())
+                .andDo(document("produto/edita-404",
+                        pathParameters(PRODUTO_GUID_PARAM_DESCRIPTOR),
+                        requestFields(PRODUTO_PUT_FIELD_DESCRIPTOR)
+                ));
     }
 
     @Test
@@ -261,7 +274,7 @@ class ProdutoRestControllerTest {
 
         ProdutoJsonPutInput putInput = ProdutoJsonPutInput
                 .builder()
-                .guid("8fa845b01c134bcf9de0de1ec2ff9999")
+                .guid("8fa845b01c134bcf9de0de1ec2ff8765")
                 .nome("Teste-edicao")
                 .descricao("Teste-edicao")
                 .valor(new BigDecimal("101.00"))
@@ -275,8 +288,8 @@ class ProdutoRestControllerTest {
                         .contextPath(SERVLET_CONTEXT)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
-                .andExpect(status().isNotFound())
-                .andDo(document("produto/edita-404",
+                .andExpect(status().isNoContent())
+                .andDo(document("produto/edita",
                         pathParameters(PRODUTO_GUID_PARAM_DESCRIPTOR),
                         requestFields(PRODUTO_PUT_FIELD_DESCRIPTOR)
                 ));

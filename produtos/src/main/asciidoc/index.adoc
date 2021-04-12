@@ -11,20 +11,26 @@ Obtem produto passando o seu Guid na URL do serviço utilizando o método GET.
 ==== Requição
 
 include::{snippets}/produto/obtem-por-guid/path-parameters.adoc[]
+
 ===== Exemplo de Requisição
 
 include::{snippets}/produto/obtem-por-guid/http-request.adoc[]
 
-==== Resposta
+===== Exemplo chamada CURL
+
+include::{snippets}/produto/obtem-por-guid/curl-request.adoc[]
+
+==== Respostas
+
+===== Sucesso
 
 include::{snippets}/produto/obtem-por-guid/response-fields.adoc[]
-===== Exemplo de Resposta
 
 include::{snippets}/produto/obtem-por-guid/http-response.adoc[]
 
-==== Exemplo chamada CURL
+===== Produto Inexistente
 
-include::{snippets}/produto/obtem-por-guid/curl-request.adoc[]
+include::{snippets}/produto/obtem-por-guid-404/http-response.adoc[]
 
 '''
 
@@ -38,16 +44,17 @@ Obtem lista de produtos cadastros no sistema.
 
 include::{snippets}/produto/lista/http-request.adoc[]
 
-==== Resposta
-
-include::{snippets}/produto/lista/response-fields.adoc[]
-===== Exemplo de Resposta
-
-include::{snippets}/produto/lista/http-response.adoc[]
-
-==== Exemplo chamada CURL
+===== Exemplo chamada CURL
 
 include::{snippets}/produto/lista/curl-request.adoc[]
+
+==== Respostas
+
+===== Sucesso
+
+include::{snippets}/produto/lista/response-fields.adoc[]
+
+include::{snippets}/produto/lista/http-response.adoc[]
 
 '''
 
@@ -58,20 +65,87 @@ Exclui Produto identificado pelo Guid passado no serviço.
 ==== Requisição
 
 include::{snippets}/produto/exclui/path-parameters.adoc[]
+
 ===== Exemplo de Requisição
 
 include::{snippets}/produto/exclui/http-request.adoc[]
 
-==== Resposta
+===== Exemplo chamada CURL
 
-===== Exemplo de Resposta de Sucesso
+include::{snippets}/produto/exclui/curl-request.adoc[]
+
+==== Respostas
+
+===== Sucesso
 
 include::{snippets}/produto/exclui/http-response.adoc[]
 
-==== Exemplo de Exclusão Produto Inexistente
+===== Produto Inexistente
 
 include::{snippets}/produto/exclui-404/http-response.adoc[]
 
-=== Exemplo chamada CURL
+'''
 
-include::{snippets}/produto/exclui/curl-request.adoc[]
+=== Criar Produto
+
+Cria novo Produto no sistema.
+
+==== Requisição
+
+include::{snippets}/produto/cria/request-fields.adoc[]
+
+===== Exemplo de Requisição
+
+include::{snippets}/produto/cria/http-request.adoc[]
+
+===== Exemplo chamada CURL
+
+include::{snippets}/produto/cria/curl-request.adoc[]
+
+==== Respostas
+
+===== Sucesso
+
+include::{snippets}/produto/cria/response-fields.adoc[]
+
+include::{snippets}/produto/cria/http-response.adoc[]
+
+===== Dados Inválidos
+
+include::{snippets}/produto/cria-422/response-fields.adoc[]
+
+include::{snippets}/produto/cria-422/http-response.adoc[]
+
+'''
+
+=== Editar Produto
+
+Edita o produto cujo GUID foi informado no sistema.
+
+==== Requisição
+
+include::{snippets}/produto/edita/request-fields.adoc[]
+
+===== Exemplo de Requisição
+
+include::{snippets}/produto/edita/http-request.adoc[]
+
+===== Exemplo de CURL
+
+include::{snippets}/produto/edita/curl-request.adoc[]
+
+==== Respostas
+
+===== Sucesso
+
+include::{snippets}/produto/edita/http-response.adoc[]
+
+===== Produto Inexistente
+
+include::{snippets}/produto/edita-404/http-response.adoc[]
+
+===== Dados Inválidos
+
+include::{snippets}/produto/edicao-422/response-fields.adoc[]
+
+include::{snippets}/produto/edicao-422/http-response.adoc[]

@@ -11,6 +11,7 @@ public class DecoderDeErro implements ErrorDecoder {
     public Exception decode(String s, Response response) {
 
         final String recurso = response.request().url();
+
         Exception excecao;
 
         switch (response.status()) {

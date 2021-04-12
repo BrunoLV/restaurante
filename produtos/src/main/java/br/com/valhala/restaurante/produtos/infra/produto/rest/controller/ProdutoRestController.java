@@ -7,13 +7,13 @@ import br.com.valhala.restaurante.produtos.aplicacao.produto.cqs.comando.executo
 import br.com.valhala.restaurante.produtos.aplicacao.produto.cqs.comando.executores.ExecutorComandoEditaProduto;
 import br.com.valhala.restaurante.produtos.aplicacao.produto.cqs.comando.executores.ExecutorComandoExcluiProduto;
 import br.com.valhala.restaurante.produtos.aplicacao.produto.cqs.consulta.ConsultaProdutoService;
+import br.com.valhala.restaurante.produtos.dominio.produto.modelo.Produto;
 import br.com.valhala.restaurante.produtos.infra.produto.rest.conversores.ConversorProdutoJsonInputParaComandoCriacao;
 import br.com.valhala.restaurante.produtos.infra.produto.rest.conversores.ConversorProdutoJsonInputParaComandoEdicao;
 import br.com.valhala.restaurante.produtos.infra.produto.rest.conversores.ConversorProdutoModeloParaProdutoJsonOutput;
-import br.com.valhala.restaurante.produtos.infra.produto.rest.json.saida.ProdutoJsonOutput;
 import br.com.valhala.restaurante.produtos.infra.produto.rest.json.entrada.ProdutoJsonPostInput;
 import br.com.valhala.restaurante.produtos.infra.produto.rest.json.entrada.ProdutoJsonPutInput;
-import br.com.valhala.restaurante.produtos.dominio.produto.modelo.Produto;
+import br.com.valhala.restaurante.produtos.infra.produto.rest.json.saida.ProdutoJsonOutput;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -50,6 +50,9 @@ class ProdutoRestController {
     @PutMapping(value = "/{guid}", consumes = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<Void> edita(@PathVariable("guid") String guid, @RequestBody ProdutoJsonPutInput input) {
         ComandoEditaProduto comando = conversorProdutoJsonInputParaComandoEdicao.converte(input);
+        if (!comando.getGuid().equals(guid)) {
+            throw new IllegalStateException("O guid informado na URL do recurso não é igual ao informado no corpo da requisição.");
+        }
         executorComandoEditaProduto.executa(comando);
         return ResponseEntity.noContent().build();
     }
