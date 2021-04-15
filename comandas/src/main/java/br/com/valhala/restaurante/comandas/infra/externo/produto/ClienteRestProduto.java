@@ -1,8 +1,6 @@
 package br.com.valhala.restaurante.comandas.infra.externo.produto;
 
 import br.com.valhala.restaurante.comandas.infra.externo.produto.dto.ProdutoDTO;
-import org.springframework.cloud.client.loadbalancer.LoadBalanced;
-import org.springframework.cloud.loadbalancer.annotation.LoadBalancerClient;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;

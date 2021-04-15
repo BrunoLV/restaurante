@@ -7,7 +7,6 @@ import br.com.valhala.restaurante.comandas.infra.comanda.orm.ComandaORM;
 import br.com.valhala.restaurante.comandas.infra.comanda.orm.ItemORM;
 import br.com.valhala.restaurante.comandas.infra.comanda.orm.conversores.ConversorComandaModeloParaORM;
 import br.com.valhala.restaurante.comandas.infra.comanda.orm.conversores.ConversorComandaORMParaModelo;
-import br.com.valhala.restaurante.dominio.repositorio.Repositorio;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

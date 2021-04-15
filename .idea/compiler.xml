@@ -17,6 +17,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="demo" target="11" />
+      <module name="sec-resource-server" target="11" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -25,6 +26,7 @@
       <module name="comandas" options="-parameters" />
       <module name="demo" options="-parameters" />
       <module name="produtos" options="-parameters" />
+      <module name="sec-resource-server" options="-parameters" />
       <module name="service-discovery" options="-parameters" />
     </option>
   </component>

@@ -3,7 +3,6 @@ package br.com.valhala.restaurante.comandas.infra.comanda.orm.conversores;
 import br.com.valhala.restaurante.aplicacao.conversao.Conversor;
 import br.com.valhala.restaurante.comandas.dominio.comanda.modelo.Item;
 import br.com.valhala.restaurante.comandas.infra.comanda.orm.ItemORM;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component

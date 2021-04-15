@@ -1,8 +1,8 @@
 package br.com.valhala.restaurante.produtos.infra.produto.rest.conversores;
 
 import br.com.valhala.restaurante.aplicacao.conversao.Conversor;
-import br.com.valhala.restaurante.produtos.infra.produto.rest.json.saida.ProdutoJsonOutput;
 import br.com.valhala.restaurante.produtos.dominio.produto.modelo.Produto;
+import br.com.valhala.restaurante.produtos.infra.produto.rest.json.saida.ProdutoJsonOutput;
 import org.springframework.stereotype.Component;
 
 @Component

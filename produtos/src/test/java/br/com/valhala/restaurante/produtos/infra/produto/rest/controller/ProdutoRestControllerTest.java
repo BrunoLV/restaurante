@@ -8,6 +8,7 @@ import br.com.valhala.restaurante.produtos.infra.produto.rest.json.entrada.Produ
 import br.com.valhala.restaurante.produtos.infra.produto.rest.json.entrada.ProdutoJsonPutInput;
 import br.com.valhala.restaurante.produtos.infra.produto.rest.json.saida.ProdutoJsonOutput;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.database.rider.core.api.configuration.DBUnit;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.spring.api.DBRider;
 import org.junit.jupiter.api.BeforeEach;
@@ -76,7 +77,7 @@ class ProdutoRestControllerTest {
             fieldWithPath("fabricante").description("Fabricante do Produto.")
     };
 
-    private static final FieldDescriptor[] ERRO_VALIDACAO_DADOS = new FieldDescriptor[] {
+    private static final FieldDescriptor[] ERRO_VALIDACAO_DADOS = new FieldDescriptor[]{
             fieldWithPath("path").description("Path do recurso acessado."),
             fieldWithPath("mensagem").description("Mensagem da ocorrência."),
             fieldWithPath("erros[].campo").description("Campo validado.").optional(),

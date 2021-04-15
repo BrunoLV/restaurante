@@ -1,0 +1,90 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api-comandas
+
+spring:
+  application:
+    name: comandas
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    auto-commit: false
+  data:
+    jpa:
+      repositories:
+        enabled: true
+
+feign:
+  client:
+    config:
+      produtos:
+        connect-timeout: 5000
+        read-timeout: 5000
+        error-decoder: br.com.valhala.restaurante.comandas.infra.rest.erro.decoders.DecoderDeErro
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: test
+  datasource:
+    url: jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: SA
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    database: h2
+  flyway:
+    enabled: false
+eureka:
+  client:
+    enabled: false
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: prod
+  datasource:
+    url: jdbc:postgresql://${COMANDA_DB_HOST}:${COMANDA_DB_PORT}/comandas-db
+    username: ${COMANDA_DB_USER}
+    password: ${COMANDA_DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  boot:
+    admin:
+      client:
+        url: http://${ADMIN_SERVER_HOST}:${ADMIN_SERVER_PORT}
+  flyway:
+    url: ${spring.datasource.url}
+    user: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+
+server:
+  tomcat:
+    mbeanregistry:
+      enabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://${EUREKA_SERVER_HOST}:${EUREKA_SERVER_PORT}/eureka
+    fetch-registry: true
+
+---
+

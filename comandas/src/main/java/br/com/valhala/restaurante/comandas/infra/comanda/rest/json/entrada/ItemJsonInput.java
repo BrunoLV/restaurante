@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @SuperBuilder
 @EqualsAndHashCode
 @ToString
-abstract class  ItemJsonInput {
+abstract class ItemJsonInput {
     private String guidProduto;
     private BigDecimal valorUnitario;
     private Integer quantidade;

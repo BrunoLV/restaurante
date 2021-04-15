@@ -1,9 +1,9 @@
 package br.com.valhala.restaurante.comandas.aplicacao.comanda.cqs.comando.executores.impl;
 
 import br.com.valhala.restaurante.aplicacao.exceptions.ModeloInvalidoException;
-import br.com.valhala.restaurante.comandas.aplicacao.produto.anti_corrupcao.servico.ServicoProduto;
 import br.com.valhala.restaurante.comandas.aplicacao.comanda.cqs.comando.ComandoEditaComanda;
 import br.com.valhala.restaurante.comandas.aplicacao.comanda.cqs.comando.executores.ExecutorComandoEditaComanda;
+import br.com.valhala.restaurante.comandas.aplicacao.produto.anti_corrupcao.servico.ServicoProduto;
 import br.com.valhala.restaurante.comandas.dominio.comanda.modelo.Comanda;
 import br.com.valhala.restaurante.comandas.dominio.comanda.modelo.Item;
 import br.com.valhala.restaurante.comandas.dominio.comanda.modelo.Produto;
