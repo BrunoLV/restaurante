@@ -18,7 +18,7 @@ public class SegurancaConfig extends WebSecurityConfigurerAdapter {
                 .cors()
                 .and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/produto/**").hasAnyAuthority("ROLE_USUARIO", "ROLE_ADMIN")
+                .antMatchers(HttpMethod.GET, "/produto/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                 .antMatchers(HttpMethod.POST, "/produto/**").hasAuthority("ROLE_ADMIN")
                 .antMatchers(HttpMethod.PUT, "/produto/**").hasAuthority("ROLE_ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/produto/**").hasAuthority("ROLE_ADMIN")

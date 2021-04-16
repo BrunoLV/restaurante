@@ -2,6 +2,15 @@ version: "3.8"
 
 services:
 
+  db_keycloak:
+    image: postgres:alpine
+    environment:
+      - POSTGRES_PASSWORD=keycloak
+      - POSTGRES_USER=keycloak
+      - POSTGRES_DB=keycloak
+    ports:
+      - 5433:5432
+
   db_produto:
     image: postgres:alpine
     environment:
@@ -9,7 +18,7 @@ services:
       - POSTGRES_USER=produtos
       - POSTGRES_DB=produtos-db
     ports:
-      - 5432:5432
+      - 5434:5432
 
   db_comanda:
     image: postgres:alpine
@@ -18,12 +27,32 @@ services:
       - POSTGRES_USER=comandas
       - POSTGRES_DB=comandas-db
     ports:
-      - 5433:5432
+      - 5435:5432
+
+  keycloak:
+    image: jboss/keycloak:latest
+    environment:
+      DB_VENDOR: POSTGRES
+      DB_ADDR: db_keycloak
+      DB_DATABASE: keycloak
+      DB_USER: keycloak
+      DB_PORT: 5432
+      DB_SCHEMA: public
+      DB_PASSWORD: keycloak
+      KEYCLOAK_USER: root
+      KEYCLOAK_PASSWORD: root
+      KEYCLOAK_IMPORT: /tmp/restaurante_realm.json
+    ports:
+      - 8080:8080
+    volumes:
+      - ./keycloak/imports/restaurante_realm.json:/tmp/restaurante_realm.json
+    depends_on:
+      - db_keycloak
 
   admin-server:
     image: admin-server:1.0-SNAPSHOT
     ports:
-      - 8182:8080
+      - 8081:8080
 
   service-discovery:
     image: service-discovery:1.0-SNAPSHOT
@@ -33,7 +62,7 @@ services:
   produtos:
     image: produtos:1.0-SNAPSHOT
     ports:
-      - 8080:8080
+      - 8082:8080
     environment:
       - PRODUTO_DB_HOST=database
       - PRODUTO_DB_PORT=5432
@@ -43,11 +72,16 @@ services:
       - EUREKA_SERVER_PORT=8761
       - ADMIN_SERVER_HOST=admin
       - ADMIN_SERVER_PORT=8080
+      - SEC_HOST=keycloak
+      - SEC_PORT=8080
+      - SEC_REALM=restaurante
     links:
       - "db_produto:database"
       - "service-discovery:eureka"
       - "admin-server:admin"
+      - "keycloak:keycloak"
     depends_on:
+      - keycloak
       - db_produto
       - admin-server
       - service-discovery
@@ -56,7 +90,7 @@ services:
   comandas:
     image: comandas:1.0-SNAPSHOT
     ports:
-      - 8081:8080
+      - 8083:8080
     environment:
       - COMANDA_DB_HOST=database
       - COMANDA_DB_PORT=5432

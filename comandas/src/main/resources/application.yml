@@ -60,14 +60,14 @@ spring:
   jpa:
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+  flyway:
+    url: jdbc:postgresql://${COMANDA_DB_HOST}:${COMANDA_DB_PORT}/comandas-db
+    user: ${COMANDA_DB_USER}
+    password: ${COMANDA_DB_PASSWORD}
   boot:
     admin:
       client:
         url: http://${ADMIN_SERVER_HOST}:${ADMIN_SERVER_PORT}
-  flyway:
-    url: ${spring.datasource.url}
-    user: ${spring.datasource.username}
-    password: ${spring.datasource.password}
 
 server:
   tomcat:

@@ -44,7 +44,7 @@ spring:
     activate:
       on-profile: prod
   datasource:
-    url: jdbc:postgreslq://${PRODUTO_DB_HOST}:${PRODUTO_DB_PORT}/produtos-db
+    url: jdbc:postgresql://${PRODUTO_DB_HOST}:${PRODUTO_DB_PORT}/produtos-db
     username: ${PRODUTO_DB_USER}
     password: ${PRODUTO_DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
@@ -52,9 +52,9 @@ spring:
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   flyway:
-    url: ${spring.datasource.url}
-    user: ${spring.datasource.username}
-    password: ${spring.datasource.password}
+    url: jdbc:postgresql://${PRODUTO_DB_HOST}:${PRODUTO_DB_PORT}/produtos-db
+    user: ${PRODUTO_DB_USER}
+    password: ${PRODUTO_DB_PASSWORD}
   boot:
     admin:
       client:
