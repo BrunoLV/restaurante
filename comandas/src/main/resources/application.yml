@@ -20,7 +20,9 @@ feign:
       produtos:
         connect-timeout: 5000
         read-timeout: 5000
-        error-decoder: br.com.valhala.restaurante.comandas.infra.rest.erro.decoders.DecoderDeErro
+        error-decoder: br.com.valhala.restaurante.comandas.infra.rest.client.decoders.DecoderDeErro
+        requestInterceptors:
+          - br.com.valhala.restaurante.comandas.infra.rest.client.interceptadores.InterceptadorAutorizacaoRequisicao
 
 ---
 
@@ -68,6 +70,12 @@ spring:
     admin:
       client:
         url: http://${ADMIN_SERVER_HOST}:${ADMIN_SERVER_PORT}
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://${SEC_HOST}:${SEC_PORT}/auth/realms/${SEC_REALM}
+          jwk-set-uri: http://${SEC_HOST}:${SEC_PORT}/auth/realms/${SEC_REALM}/protocol/openid-connect/certs
 
 server:
   tomcat:
@@ -85,6 +93,7 @@ eureka:
     serviceUrl:
       defaultZone: http://${EUREKA_SERVER_HOST}:${EUREKA_SERVER_PORT}/eureka
     fetch-registry: true
+
 
 ---
 

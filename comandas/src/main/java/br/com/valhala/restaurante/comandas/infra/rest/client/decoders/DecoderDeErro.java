@@ -1,4 +1,4 @@
-package br.com.valhala.restaurante.comandas.infra.rest.erro.decoders;
+package br.com.valhala.restaurante.comandas.infra.rest.client.decoders;
 
 import br.com.valhala.restaurante.infra.rest.exceptions.ErroRecursoExternoException;
 import br.com.valhala.restaurante.infra.rest.exceptions.RecursoInexistenteException;
