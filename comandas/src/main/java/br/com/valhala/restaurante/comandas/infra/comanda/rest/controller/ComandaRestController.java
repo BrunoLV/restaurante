@@ -14,6 +14,10 @@ import br.com.valhala.restaurante.comandas.infra.comanda.rest.conversores.Conver
 import br.com.valhala.restaurante.comandas.infra.comanda.rest.json.entrada.ComandaJsonPostInput;
 import br.com.valhala.restaurante.comandas.infra.comanda.rest.json.entrada.ComandaJsonPutInput;
 import br.com.valhala.restaurante.comandas.infra.comanda.rest.json.saida.ComandaJsonOutput;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

@@ -2,10 +2,10 @@ package br.com.valhala.restaurante.produtos.infra.produto.repositorio.jpa;
 
 import br.com.valhala.restaurante.aplicacao.exceptions.ModeloNaoEncontradoException;
 import br.com.valhala.restaurante.produtos.dominio.produto.modelo.Produto;
-import br.com.valhala.restaurante.produtos.infra.dbrider.providers.ListaProdutosDataSetProvider;
-import br.com.valhala.restaurante.produtos.infra.dbrider.providers.ProdutoDataSetProvider;
-import br.com.valhala.restaurante.produtos.infra.dbrider.providers.ProdutoPosEdicaoDataSetProvider;
-import br.com.valhala.restaurante.produtos.infra.dbrider.providers.ProdutoPosInclusaoDataSetProvider;
+import br.com.valhala.restaurante.produtos.infra.dbrider.provedores.ListaProdutosDataSetProvider;
+import br.com.valhala.restaurante.produtos.infra.dbrider.provedores.ProdutoDataSetProvider;
+import br.com.valhala.restaurante.produtos.infra.dbrider.provedores.ProdutoPosEdicaoDataSetProvider;
+import br.com.valhala.restaurante.produtos.infra.dbrider.provedores.ProdutoPosInclusaoDataSetProvider;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import com.github.database.rider.spring.api.DBRider;

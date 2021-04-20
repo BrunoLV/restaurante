@@ -2,13 +2,12 @@ package br.com.valhala.restaurante.produtos.infra.produto.rest.controller;
 
 import br.com.valhala.restaurante.aplicacao.rest.tratamento_exception.json.ErroValidacaoDadosJsonOutput;
 import br.com.valhala.restaurante.aplicacao.rest.tratamento_exception.json.ErroValidacaoJsonOutput;
-import br.com.valhala.restaurante.produtos.infra.dbrider.providers.ListaProdutosDataSetProvider;
-import br.com.valhala.restaurante.produtos.infra.dbrider.providers.ProdutoDataSetProvider;
+import br.com.valhala.restaurante.produtos.infra.dbrider.provedores.ListaProdutosDataSetProvider;
+import br.com.valhala.restaurante.produtos.infra.dbrider.provedores.ProdutoDataSetProvider;
 import br.com.valhala.restaurante.produtos.infra.produto.rest.json.entrada.ProdutoJsonPostInput;
 import br.com.valhala.restaurante.produtos.infra.produto.rest.json.entrada.ProdutoJsonPutInput;
 import br.com.valhala.restaurante.produtos.infra.produto.rest.json.saida.ProdutoJsonOutput;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.database.rider.core.api.configuration.DBUnit;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.spring.api.DBRider;
 import org.junit.jupiter.api.BeforeEach;
