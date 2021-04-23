@@ -28,7 +28,7 @@ public class Comanda implements RaizAgregado<Comanda>, Cloneable {
     private String guid;
     @NotNull(message = "{comanda.data.obrigatorio}")
     private LocalDate data;
-    @NotNull(message = "{comanda.numero_mesa.obrigatorio}")
+    @NotNull(message = "{produto.numero_mesa.obrigatorio}")
     private Integer numeroMesa;
 
     @Valid

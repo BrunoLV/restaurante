@@ -1,9 +1,11 @@
 package br.com.valhala.restaurante.comandas.dominio.comanda.servico.impl;
 
+import br.com.valhala.restaurante.aplicacao.exceptions.ModeloInvalidoException;
 import br.com.valhala.restaurante.comandas.dominio.comanda.modelo.Comanda;
 import br.com.valhala.restaurante.comandas.dominio.comanda.repositorio.RepositorioComanda;
 import br.com.valhala.restaurante.comandas.dominio.comanda.servico.ServicoComanda;
 import br.com.valhala.restaurante.comandas.dominio.comanda.validacao.ValidadorComanda;
+import br.com.valhala.restaurante.dominio.validacao.resultado.ResultadoValidacao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +19,7 @@ public class ServicoComandaImpl implements ServicoComanda {
     @Override
     public Comanda cria(Comanda dados) {
         Comanda comanda = Comanda.novo(dados.getNumeroMesa(), dados.getItens());
-        validador.valida(comanda);
+        validaComanda(comanda);
         repositorio.cria(comanda);
         return comanda;
     }
@@ -26,8 +28,15 @@ public class ServicoComandaImpl implements ServicoComanda {
     public void edita(String guid, Comanda dados) {
         Comanda comandaPersistente = repositorio.buscaPorGuid(guid);
         Comanda comandaEditada = comandaPersistente.edita(dados);
-        validador.valida(comandaEditada);
+        validaComanda(comandaEditada);
         repositorio.edita(comandaEditada);
+    }
+
+    private void validaComanda(Comanda comanda) {
+        ResultadoValidacao resultadoValidacao = validador.valida(comanda);
+        if (resultadoValidacao.temErros()) {
+            throw new ModeloInvalidoException("Comanda inválido.", resultadoValidacao.getErros());
+        }
     }
 
     @Override

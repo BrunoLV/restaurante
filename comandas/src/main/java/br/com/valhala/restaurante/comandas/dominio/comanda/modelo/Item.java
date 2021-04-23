@@ -29,7 +29,7 @@ public class Item implements Entidade, Cloneable {
     @NotNull
     private BigDecimal valorUnitario;
 
-    @NotNull(message = "{item.quantidade.obrigatorio}")
+    @NotNull(message = "{item.quantidade.obrigadorio}")
     @Min(value = 1, message = "{item.quantidade.minimo}")
     private Integer quantidade;
 
