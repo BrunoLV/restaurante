@@ -237,7 +237,7 @@ public class ComandaRestControllerTest {
         MvcResult mvcResult = this.mockMvc
                 .perform(get(RESOURCE_PATH + "/lista").contextPath(SERVLET_CONTEXT))
                 .andExpect(status().isOk())
-                .andDo(document("produto/lista",
+                .andDo(document("comanda/lista",
                         responseFields(fieldWithPath("[]").description("Lista de Produtos")).andWithPrefix("[].", COMANDA_FIELD_DESCRIPTOR)
                 )).andReturn();
 
