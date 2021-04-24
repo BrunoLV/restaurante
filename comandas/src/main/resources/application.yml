@@ -24,9 +24,8 @@ feign:
         requestInterceptors:
           - br.com.valhala.restaurante.comandas.infra.rest.client.interceptadores.InterceptadorAutorizacaoRequisicao
 
-springdoc:
-  swagger-ui:
-    path: /api-docs.html
+stubrunner:
+  ids: 'br.com.valhala.restaurante.produtos:produtos:+:stubs:8080'
 
 ---
 

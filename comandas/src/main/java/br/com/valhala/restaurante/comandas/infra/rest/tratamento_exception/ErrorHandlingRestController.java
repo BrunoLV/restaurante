@@ -18,7 +18,7 @@ public class ErrorHandlingRestController {
         ErroValidacaoDadosJsonOutput output = new ErroValidacaoDadosJsonOutput();
         output.setPath(request.getRequestURL().toString());
         output.setMensagem(ex.getMessage());
-        ex.getErros().stream().map(e -> new ErroValidacaoJsonOutput(e.getCampo() == null || e.getCampo().isBlank() ? null : e.getCampo(), e.getMensagem())).forEach(e -> output.adicionaErro(e));
+        ex.getErros().stream().map(e -> new ErroValidacaoJsonOutput(e.getCampo() == null || e.getCampo().isBlank() ? null : e.getCampo(), e.getMensagem())).forEach(output::adicionaErro);
         return ResponseEntity.unprocessableEntity().body(output);
     }
 

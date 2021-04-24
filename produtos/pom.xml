@@ -20,6 +20,7 @@
         <java.version>15</java.version>
         <spring-boot-admin.version>2.3.1</spring-boot-admin.version>
         <spring-cloud.version>2020.0.2</spring-cloud.version>
+        <spring-cloud-contract.version>3.0.2</spring-cloud-contract.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -124,21 +125,7 @@
 
         <dependency>
             <groupId>io.rest-assured</groupId>
-            <artifactId>rest-assured</artifactId>
-            <version>4.3.3</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>io.rest-assured</groupId>
-            <artifactId>json-path</artifactId>
-            <version>4.3.3</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>io.rest-assured</groupId>
-            <artifactId>xml-path</artifactId>
+            <artifactId>rest-assured-all</artifactId>
             <version>4.3.3</version>
             <scope>test</scope>
         </dependency>
@@ -151,6 +138,12 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-contract-verifier</artifactId>
             <scope>test</scope>
         </dependency>
 
@@ -188,6 +181,17 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-contract-maven-plugin</artifactId>
+                <version>${spring-cloud-contract.version}</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <baseClassForTests>br.com.valhala.restaurante.produtos.infra.contratos.ContratoBaseTest</baseClassForTests>
+                    <convertToYaml>true</convertToYaml>
                 </configuration>
             </plugin>
 

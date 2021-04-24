@@ -28,15 +28,15 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/produto")
 @RequiredArgsConstructor
-class ProdutoRestController {
+public class ProdutoRestController {
 
-    final ExecutorComandoCriaProduto executorComandoCriaProduto;
-    final ExecutorComandoEditaProduto executorComandoEditaProduto;
-    final ExecutorComandoExcluiProduto executorComandoExcluiProduto;
-    final ConsultaProdutoService consultaService;
-    final ConversorProdutoJsonInputParaComandoCriacao conversorProdutoJsonInputParaComandoCriacao;
-    final ConversorProdutoJsonInputParaComandoEdicao conversorProdutoJsonInputParaComandoEdicao;
-    final ConversorProdutoModeloParaProdutoJsonOutput conversorProdutoModeloParaProdutoJsonOutput;
+    private final ExecutorComandoCriaProduto executorComandoCriaProduto;
+    private final ExecutorComandoEditaProduto executorComandoEditaProduto;
+    private final ExecutorComandoExcluiProduto executorComandoExcluiProduto;
+    private final ConsultaProdutoService consultaService;
+    private final ConversorProdutoJsonInputParaComandoCriacao conversorProdutoJsonInputParaComandoCriacao;
+    private final ConversorProdutoJsonInputParaComandoEdicao conversorProdutoJsonInputParaComandoEdicao;
+    private final ConversorProdutoModeloParaProdutoJsonOutput conversorProdutoModeloParaProdutoJsonOutput;
 
     @PostMapping(value = {"", "/"}, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<ProdutoJsonOutput> cria(@RequestBody ProdutoJsonPostInput input, UriComponentsBuilder builder) {
