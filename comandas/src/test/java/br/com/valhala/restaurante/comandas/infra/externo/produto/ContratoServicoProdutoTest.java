@@ -24,7 +24,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class ContratoServicoProdutoTest {
 
     @RegisterExtension
-    public StubRunnerExtension stubRunner = new StubRunnerExtension().downloadStub("br.com.valhala.restaurante.produtos", "produtos", "1.0-SNAPSHOT", "stubs")
+    public StubRunnerExtension stubRunner = new StubRunnerExtension()
+            .downloadStub("br.com.valhala.restaurante.produtos", "produtos", "1.0-SNAPSHOT", "stubs")
             .withPort(8080)
             .stubsMode(StubRunnerProperties.StubsMode.LOCAL);
 
@@ -39,13 +40,29 @@ public class ContratoServicoProdutoTest {
         HttpRequest httpRequest = HttpRequest
                 .newBuilder()
                 .GET()
-                .uri(URI.create("http://localhost:8080/produto/1"))
+                .uri(URI.create("http://localhost:8080/produto/ba206deca62811ebbcbc0242ac130002"))
                 .setHeader("Accept", "application/json")
                 .build();
 
         HttpResponse<String> response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
 
-        assertThat(response.statusCode(), equalTo(HttpStatus.NO_CONTENT.value()));
+        assertThat(response.statusCode(), equalTo(HttpStatus.OK.value()));
+    }
+
+    @Test
+    void deveDevolverRetornar404ParaGuidInexistente() throws IOException, InterruptedException {
+
+        HttpRequest request = HttpRequest
+                .newBuilder()
+                .GET()
+                .uri(URI.create("http://localhost:8080/produto/125a0f18-a629-11eb-bcbc-0242ac130002"))
+                .setHeader("Accept", "application/json")
+                .build();
+
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+        assertThat(response.statusCode(), equalTo(HttpStatus.NOT_FOUND.value()));
+
     }
 
 }

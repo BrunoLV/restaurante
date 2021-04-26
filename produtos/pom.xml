@@ -191,7 +191,6 @@
                 <extensions>true</extensions>
                 <configuration>
                     <baseClassForTests>br.com.valhala.restaurante.produtos.infra.contratos.ContratoBaseTest</baseClassForTests>
-                    <convertToYaml>true</convertToYaml>
                 </configuration>
             </plugin>
 
