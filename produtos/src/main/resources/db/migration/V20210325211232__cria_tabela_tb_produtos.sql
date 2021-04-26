@@ -11,5 +11,5 @@ CREATE TABLE tb_produtos
 );
 
 CREATE
-SEQUENCE seq_produtos AS BIGINT INCREMENT BY 1 START
-WITH 1 OWNED BY tb_produtos.id;
+    SEQUENCE seq_produtos AS BIGINT INCREMENT BY 1 START
+    WITH 1 OWNED BY tb_produtos.id;

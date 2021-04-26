@@ -190,7 +190,8 @@
                 <version>${spring-cloud-contract.version}</version>
                 <extensions>true</extensions>
                 <configuration>
-                    <baseClassForTests>br.com.valhala.restaurante.produtos.infra.contratos.ContratoBaseTest</baseClassForTests>
+                    <baseClassForTests>br.com.valhala.restaurante.produtos.infra.contratos.ContratoBaseTest
+                    </baseClassForTests>
                 </configuration>
             </plugin>
 

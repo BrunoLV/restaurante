@@ -8,8 +8,8 @@ CREATE TABLE tb_comandas
 );
 
 CREATE
-SEQUENCE seq_comandas AS BIGINT INCREMENT BY 1 START
-WITH 1 OWNED BY tb_comandas.id;
+    SEQUENCE seq_comandas AS BIGINT INCREMENT BY 1 START
+    WITH 1 OWNED BY tb_comandas.id;
 
 CREATE TABLE tb_itens
 (
@@ -26,5 +26,5 @@ CREATE TABLE tb_itens
 );
 
 CREATE
-SEQUENCE seq_itens AS BIGINT INCREMENT BY 1 START
-WITH 1 OWNED BY tb_itens.id;
+    SEQUENCE seq_itens AS BIGINT INCREMENT BY 1 START
+    WITH 1 OWNED BY tb_itens.id;

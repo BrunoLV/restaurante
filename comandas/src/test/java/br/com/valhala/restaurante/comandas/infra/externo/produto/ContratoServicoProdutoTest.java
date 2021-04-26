@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cloud.contract.stubrunner.junit.StubRunnerExtension;
-import org.springframework.cloud.contract.stubrunner.spring.AutoConfigureStubRunner;
 import org.springframework.cloud.contract.stubrunner.spring.StubRunnerProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ActiveProfiles;
@@ -23,16 +22,15 @@ import static org.hamcrest.MatcherAssert.assertThat;
 @ActiveProfiles("test")
 public class ContratoServicoProdutoTest {
 
+    private static final HttpClient httpClient = HttpClient.newBuilder()
+            .version(HttpClient.Version.HTTP_1_1)
+            .connectTimeout(Duration.ofSeconds(10))
+            .build();
     @RegisterExtension
     public StubRunnerExtension stubRunner = new StubRunnerExtension()
             .downloadStub("br.com.valhala.restaurante.produtos", "produtos", "1.0-SNAPSHOT", "stubs")
             .withPort(8080)
             .stubsMode(StubRunnerProperties.StubsMode.LOCAL);
-
-    private static final HttpClient httpClient = HttpClient.newBuilder()
-            .version(HttpClient.Version.HTTP_1_1)
-            .connectTimeout(Duration.ofSeconds(10))
-            .build();
 
     @Test
     void deveDevolverProdutoERetornar200() throws IOException, InterruptedException {
