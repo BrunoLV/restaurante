@@ -30,6 +30,10 @@ stubrunner:
 ---
 
 spring:
+  zipkin:
+    base-url: http://${ZIPKIN_HOST}:${ZIPKIN_PORT}/
+    sender:
+      type: web
   config:
     activate:
       on-profile: test

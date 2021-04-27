@@ -53,7 +53,7 @@ public class ContratoServicoProdutoTest {
         HttpRequest request = HttpRequest
                 .newBuilder()
                 .GET()
-                .uri(URI.create("http://localhost:8080/produto/125a0f18-a629-11eb-bcbc-0242ac130002"))
+                .uri(URI.create("http://localhost:8080/produto/125a0f18a62911ebbcbc0242ac130002"))
                 .setHeader("Accept", "application/json")
                 .build();
 

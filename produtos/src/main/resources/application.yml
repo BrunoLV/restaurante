@@ -33,6 +33,10 @@ spring:
     database: h2
   flyway:
     enabled: false
+  zipkin:
+    discovery-client-enabled: false
+    enabled: false
+
 eureka:
   client:
     enabled: false
@@ -40,6 +44,11 @@ eureka:
 ---
 
 spring:
+  zipkin:
+    base-url: http://${ZIPKIN_HOST}:${ZIPKIN_PORT}/
+    sender:
+      type: web
+
   config:
     activate:
       on-profile: prod

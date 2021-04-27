@@ -15,6 +15,7 @@ import br.com.valhala.restaurante.produtos.infra.produto.rest.json.entrada.Produ
 import br.com.valhala.restaurante.produtos.infra.produto.rest.json.entrada.ProdutoJsonPutInput;
 import br.com.valhala.restaurante.produtos.infra.produto.rest.json.saida.ProdutoJsonOutput;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +29,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/produto")
 @RequiredArgsConstructor
+@Slf4j
 public class ProdutoRestController {
 
     private final ExecutorComandoCriaProduto executorComandoCriaProduto;
@@ -66,6 +68,7 @@ public class ProdutoRestController {
 
     @GetMapping(value = "/{guid}", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<ProdutoJsonOutput> buscaPorId(@PathVariable("guid") String guid) {
+        log.info("Buscando por produto guid: " + guid);
         Produto produto = consultaService.buscaPorGuid(guid);
         ProdutoJsonOutput output = conversorProdutoModeloParaProdutoJsonOutput.converte(produto);
         return ResponseEntity.ok().body(output);

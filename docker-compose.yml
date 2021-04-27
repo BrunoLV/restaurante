@@ -59,6 +59,11 @@ services:
     ports:
       - 8761:8761
 
+  zipkinserver:
+    image: openzipkin/zipkin:latest
+    ports:
+    - 9411:9411
+
   produtos:
     image: produtos:1.0-SNAPSHOT
     ports:
@@ -75,6 +80,8 @@ services:
       - SEC_HOST=keycloak
       - SEC_PORT=8080
       - SEC_REALM=restaurante
+      - ZIPKIN_HOST=zipkinserver
+      - ZIPKIN_PORT=9411
     links:
       - "db_produto:database"
       - "service-discovery:eureka"
@@ -85,6 +92,7 @@ services:
       - db_produto
       - admin-server
       - service-discovery
+      - zipkinserver
     restart: on-failure
 
   comandas:
@@ -103,6 +111,8 @@ services:
       - SEC_HOST=keycloak
       - SEC_PORT=8080
       - SEC_REALM=restaurante
+      - ZIPKIN_HOST=zipkinserver
+      - ZIPKIN_PORT=9411
     links:
       - "db_comanda:database"
       - "service-discovery:eureka"
@@ -111,6 +121,7 @@ services:
       - db_comanda
       - admin-server
       - service-discovery
+      - zipkinserver
     restart: on-failure
 
   prometheus:

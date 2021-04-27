@@ -15,6 +15,7 @@ import br.com.valhala.restaurante.comandas.infra.comanda.rest.json.entrada.Coman
 import br.com.valhala.restaurante.comandas.infra.comanda.rest.json.entrada.ComandaJsonPutInput;
 import br.com.valhala.restaurante.comandas.infra.comanda.rest.json.saida.ComandaJsonOutput;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +29,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping(value = "/comanda")
 @RequiredArgsConstructor
+@Slf4j
 class ComandaRestController {
 
     final ConsultaComandaService consultaService;
@@ -57,6 +59,7 @@ class ComandaRestController {
 
     @PostMapping(value = {"", "/"}, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<ComandaJsonOutput> cria(@RequestBody ComandaJsonPostInput input, UriComponentsBuilder builder) {
+        log.info("Executando operação de criacao de comanda...");
         ComandoCriaComanda comando = conversorComandaPostInputParaComandaCriaComanda.converte(input);
         Comanda comanda = executorComandoCriaComanda.executaRetornandoComandaCriada(comando);
         URI uri = builder.path("/comanda/").path(comanda.getGuid()).build().toUri();
