@@ -87,6 +87,7 @@ services:
       - "service-discovery:eureka"
       - "admin-server:admin"
       - "keycloak:keycloak"
+      - "zipkinserver:zipkinserver"
     depends_on:
       - keycloak
       - db_produto
@@ -117,6 +118,7 @@ services:
       - "db_comanda:database"
       - "service-discovery:eureka"
       - "admin-server:admin"
+      - "zipkinserver:zipkinserver"
     depends_on:
       - db_comanda
       - admin-server

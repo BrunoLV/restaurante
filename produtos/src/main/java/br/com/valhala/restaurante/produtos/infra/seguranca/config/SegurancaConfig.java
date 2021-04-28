@@ -23,6 +23,7 @@ public class SegurancaConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.PUT, "/produto/**").hasAuthority("ROLE_ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/produto/**").hasAuthority("ROLE_ADMIN")
                 .antMatchers("/actuator/**").permitAll()
+                .antMatchers("/docs/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .oauth2ResourceServer()

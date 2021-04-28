@@ -31,9 +31,8 @@ stubrunner:
 
 spring:
   zipkin:
-    base-url: http://${ZIPKIN_HOST}:${ZIPKIN_PORT}/
-    sender:
-      type: web
+    discovery-client-enabled: false
+    enabled: false
   config:
     activate:
       on-profile: test
@@ -58,6 +57,10 @@ eureka:
 ---
 
 spring:
+  zipkin:
+    base-url: http://${ZIPKIN_HOST}:${ZIPKIN_PORT}/
+    sender:
+      type: web
   config:
     activate:
       on-profile: prod

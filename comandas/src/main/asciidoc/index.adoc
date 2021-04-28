@@ -1,0 +1,145 @@
+= Documentação API Comandas
+
+== Introdução
+
+Essa se trata de uma API de Comandas do Restaurante que dispõe das principais ações de CRUD e de consulta relacionadas a comanda.
+
+=== Obter comanda po Guid
+
+Obtem comanda passando o seu Guid na URL do serviço utilizando o método GET.
+
+==== Requição
+
+include::{snippets}/comanda/obtem-por-guid/path-parameters.adoc[]
+
+===== Exemplo de Requisição
+
+include::{snippets}/comanda/obtem-por-guid/http-request.adoc[]
+
+===== Exemplo chamada CURL
+
+include::{snippets}/comanda/obtem-por-guid/curl-request.adoc[]
+
+==== Respostas
+
+===== Sucesso
+
+include::{snippets}/comanda/obtem-por-guid/response-fields.adoc[]
+
+include::{snippets}/comanda/obtem-por-guid/http-response.adoc[]
+
+===== comanda Inexistente
+
+include::{snippets}/comanda/obtem-por-guid-404/http-response.adoc[]
+
+'''
+
+=== Obter Lista de Comandas
+
+Obtem lista de Comandas cadastros no sistema.
+
+==== Requisição
+
+===== Exemplo de Requisição
+
+include::{snippets}/comanda/lista/http-request.adoc[]
+
+===== Exemplo chamada CURL
+
+include::{snippets}/comanda/lista/curl-request.adoc[]
+
+==== Respostas
+
+===== Sucesso
+
+include::{snippets}/comanda/lista/response-fields.adoc[]
+
+include::{snippets}/comanda/lista/http-response.adoc[]
+
+'''
+
+=== Excluir comanda
+
+Exclui comanda identificado pelo Guid passado no serviço.
+
+==== Requisição
+
+include::{snippets}/comanda/exclui/path-parameters.adoc[]
+
+===== Exemplo de Requisição
+
+include::{snippets}/comanda/exclui/http-request.adoc[]
+
+===== Exemplo chamada CURL
+
+include::{snippets}/comanda/exclui/curl-request.adoc[]
+
+==== Respostas
+
+===== Sucesso
+
+include::{snippets}/comanda/exclui/http-response.adoc[]
+
+===== comanda Inexistente
+
+include::{snippets}/comanda/exclui-404/http-response.adoc[]
+
+'''
+
+=== Criar comanda
+
+Cria novo comanda no sistema.
+
+==== Requisição
+
+include::{snippets}/comanda/cria/request-fields.adoc[]
+
+===== Exemplo de Requisição
+
+include::{snippets}/comanda/cria/http-request.adoc[]
+
+===== Exemplo chamada CURL
+
+include::{snippets}/comanda/cria/curl-request.adoc[]
+
+==== Respostas
+
+===== Sucesso
+
+include::{snippets}/comanda/cria/response-fields.adoc[]
+
+include::{snippets}/comanda/cria/http-response.adoc[]
+
+===== Dados Inválidos
+
+include::{snippets}/comanda/cria-422/response-fields.adoc[]
+
+include::{snippets}/comanda/cria-422/http-response.adoc[]
+
+'''
+
+=== Editar comanda
+
+Edita o comanda cujo GUID foi informado no sistema.
+
+==== Requisição
+
+include::{snippets}/comanda/edita/request-fields.adoc[]
+
+===== Exemplo de Requisição
+
+include::{snippets}/comanda/edita/http-request.adoc[]
+
+===== Exemplo de CURL
+
+include::{snippets}/comanda/edita/curl-request.adoc[]
+
+==== Respostas
+
+===== Sucesso
+
+include::{snippets}/comanda/edita/http-response.adoc[]
+
+===== comanda Inexistente
+
+include::{snippets}/comanda/edita-404/http-response.adoc[]
